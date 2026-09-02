@@ -1,10 +1,14 @@
 param(
-    [string]$RuntimeRoot = (if ($env:LUOPAN_RUNTIME_ROOT) { $env:LUOPAN_RUNTIME_ROOT } else { Join-Path $env:LOCALAPPDATA 'Luopan\runtime' }),
+    [string]$RuntimeRoot,
     [string]$PythonVersion = '3.13',
     [string]$UvPath,
     [string]$Wheelhouse,
     [switch]$Offline
 )
+
+if (-not $RuntimeRoot) {
+    $RuntimeRoot = if ($env:LUOPAN_RUNTIME_ROOT) { $env:LUOPAN_RUNTIME_ROOT } else { Join-Path $env:LOCALAPPDATA 'Luopan\runtime' }
+}
 
 $ErrorActionPreference = 'Stop'
 $skillRoot = [IO.Path]::GetFullPath((Split-Path -Parent $MyInvocation.MyCommand.Path)).TrimEnd(
