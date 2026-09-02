@@ -89,7 +89,7 @@
 
 罗盘是一个面向**上市、未上市及信息稀缺企业与行业**的深层情报研究引擎，附带可选的（且必须显式启用的）投资视角。适用场景：主体消歧、产品市场、客户与供应商关系、竞争格局、商业结构、组织人才、供应链、真实用户体验、研发转化、替代数据、区间反推、异常信号、信息操纵风险、领先指标与不确定情报调查。
 
-**设计承诺只有一句：输出可追溯判断，不输出资料堆砌。** 这句话落实为三条硬约束：
+**设计承诺只有一句：输出可追溯判断，不输出资料堆砌。** 这条承诺落实为三条硬约束：
 
 1. 先生成结构化事实源 `research.json`，**校验通过后**再运行渲染脚本生成 Markdown 与 HTML——禁止分别手写三份内容（杜绝"报告与数据底座脱节"）；
 2. 每条论断必须绑定原子证据（原文摘录 + 可定位页码/章节/时间戳），搜索摘要永远只用于发现来源，不进入结论；
@@ -113,7 +113,7 @@ Phase 0 决策问题定义
 
 | 阶段 | 任务 | 关键产物 |
 |---|---|---|
-| Phase 0 | 自适应访谈循环定义决策问题；研究就绪门通过前不开始搜索 | `intake`（提问、回答、默认假设、未决问题、获准访问方式） |
+| Phase 0 | 自适应访谈循环定义决策问题；未通过研究就绪门前不开始搜索 | `intake`（提问、回答、默认假设、未决问题、获准访问方式） |
 | Phase 1 | 建立候选信源池；Deep 模式强制七类来源池全覆盖 | `source_health[]`、垂直查询计划 |
 | Phase 2 | 写 1-3 条可证伪假设 + 反证清单；投资视角升级为 `investment_theses[]` | 假设 / 反证 / 最大未知项 |
 | Phase 3 | 原子证据先行：`sources[]` → `evidence[]` → 实体/产品/供应链 → `claims[]` | `research.json` 主结构 |
@@ -135,7 +135,7 @@ Phase 0 决策问题定义
 | Standard | 商业/求职/创业决策 | 9-15 个代表实体，Top 6-9 深挖 |
 | Deep | 单一企业全景尽调 | 产品市场、客户、竞品、组织、替代数据与信息风险全覆盖 |
 
-**`meta.research_purpose`（目的）**：`intelligence`（默认）/ `investment` / `both`。上市公司不自动触发投资视角——投资用途必须经用户明确确认，且执行投资访谈门（标的、估值日、持有期三要素齐备）。
+**`meta.research_purpose`（目的）**：`intelligence`（默认）/ `investment` / `both`。上市公司不自动触发投资视角——投资用途必须经用户明确确认，且须通过投资访谈门（标的、估值日、持有期三要素齐备）。
 
 **`meta.analysis_lenses[]`（专项镜头）**：默认空数组，仅按明确决策问题启用，最少镜头原则：
 
@@ -304,7 +304,7 @@ SearXNG 只承担广搜层的候选发现职责，不冒充垂直数据库；垂
 - 来源 URL 禁止携带 `user:password@host` userinfo；凭据只通过显式授权配置传递；
 - 公共 feed URL 不得自动接收环境密钥；授权端点必须由用户显式提供与请求 URL **完全一致**的 HTTPS `trusted_origin`，跨 origin 重定向剥离凭据；
 - Firecrawl 月度账本只记 `creditsUsed`、请求 ID 与 UTC 时间，不保存查询文本、正文或 API Key；
-- 所有采集遵循"记录每个 URL 的抓取方式与失败原因"原则，失败不得伪装成无结果。
+- 所有采集遵循"记录每个 URL 的抓取方式与失败原因"原则（见上文适配器契约）。
 
 ### 社媒垂直适配器 MediaCrawler 详解
 
@@ -329,7 +329,7 @@ SearXNG 只承担广搜层的候选发现职责，不冒充垂直数据库；垂
 - **双根扫描**：wb/dy/ks 不读 `save_data_path` 仍写 `data/`，适配器对两个根都扫描；
 - **超时必杀进程树**：`taskkill /T` 防 Chrome 孤儿窗口；
 - **会话快照清理**：运行前后清 `Sessions/Tabs_*`，防空白标签页跨运行恢复积累（登录态存 Network/Cookies，不受影响）；
-- **字段名以实测为准**：MediaCrawler 主程序参数名带下划线（`--crawler_max_notes_count` / `--get_comment` / `--headless`），README 旧参数名已失效。
+- **字段名以实测为准**：MediaCrawler 主程序参数名带下划线（`--crawler_max_notes_count` / `--get_comment` / `--headless`），MediaCrawler 官方 README 的旧参数名已失效。
 
 > ⚠️ 第三方依赖声明：MediaCrawler 本体为 **NON-COMMERCIAL LEARNING LICENSE 1.1**，不包含在本仓库中；本适配器仅为接口封装层（MIT），使用者需自行获取 MediaCrawler 并遵守其许可证。
 
@@ -400,7 +400,7 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap-runtime.ps1
 
 **材料账本**：起草前逐项登记原始材料、触发时刻、事实、推断、未知项、读者收益、受益者、平台语境；账本薄就补料或收紧声称，不用流畅文笔掩盖证据缺口。
 
-**六层证据边界**（互不替代）：官方声称 / 展示上限 / 基准测试 / 个人测试 / 生产使用。真实故障先陈述窄观察（"三次指令变成一次连续输出"），再说明要下一般性结论还需要什么测试。
+**五层证据边界**（互不替代）：官方声称 / 展示上限 / 基准测试 / 个人测试 / 生产使用。真实故障先陈述窄观察（"三次指令变成一次连续输出"），再说明要下一般性结论还需要什么测试。
 
 **商业因果纪律**：时间顺序不是因果解释；事实 / 机制 / 推断 / 替代解释 / 未知项显式分离；判断企业"进入市场"不得用单一信号（展示/意向/交付/毛利/经营利润/质量服务逐级区分）。
 
@@ -421,7 +421,7 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap-runtime.ps1
 
 **句法即人格**：区分两种"粗糙"——人格性毛边（口语词、判断方式、有意的重复强调）保留；缺陷性毛糙（分句断裂、主宾缺失、动宾不搭、同段重复同词）必改。句法自审按 CGED 中文语法错误诊断四类（缺失/冗余/替换/语序）+ 标点执行，逐句读出声音判断停顿边界。
 
-**硬性条款（违反即失败）**：语域替换（书面化用户原话）是实质性改动必须 flag；三层标记（已确认/待确认/模型推断）只有已确认进入正文；数字缺口用保守表述不填洞；交付附特色词保留率清单（逐词标注已保留/已改动/已删除）。
+**硬性条款（违反即失败）**：语域替换（书面化用户原话）是实质性改动，必须 flag；三层标记（已确认/待确认/模型推断）只有已确认进入正文；数字缺口用保守表述不填洞；交付附特色词保留率清单（逐词标注已保留/已改动/已删除）。
 
 **借鉴来源（完整披露）**：人格提取框架与自我相似度天花板借自 cosmos-makers/writer-persona（8 轴压缩为 4 轴）；Stance 默认关、测试句借自 hannsxpeter/humanizer；真实性纪律与三层标记借自 coinluu/resume-jd-optimizer-cn；facts first 借自 wangranm-a11y/yueli-resume-writer；核心命题概念借自 larashero3-dotcom/writing-dna-skill；句法标准源自 CGED（IJCNLP 2017 学术评测）、pycorrector（shibing624）、Fenng/Tech-Doc-Style-Chinese、sparanoid/chinese-copywriting-guidelines。
 
@@ -485,7 +485,7 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap-runtime.ps1
 | Python | **不依赖系统安装**——bootstrap 经 uv 自管 Python 3.13 + 3 个固定版本依赖（`PyYAML==6.0.3` / `jsonschema[format]==4.26.0` / `Markdown==3.10.2`），安装在技能目录之外，不污染系统 Python |
 | Shell | Windows 原生 PowerShell 5.1+；非 Windows 需 pwsh 7+（未实测） |
 | 硬件 | 无 GPU 要求；内存/CPU 无特殊门槛；磁盘约 100-200 MB（运行时）+ 研究产物按需增长 |
-| 网络 | 仅首次初始化需联网（下载 Python 与依赖，走 uv 缓存；或离线 wheelhouse 方案）；日常研究按所配置采集源需要网络 |
+| 网络 | 仅首次初始化需联网（下载 Python 与依赖，走 uv 缓存；或离线 wheelhouse 方案）；日常研究按所配置的采集源需要网络 |
 | 行尾与一致性 | 仓库以 `.gitattributes` 固定 Windows 脚本 CRLF、其余 LF；requirements 文件哈希自检保证 bootstrap 与 run 的字节一致性（不一致时提示重新 bootstrap，自愈） |
 
 ### 各可选组件的系统要求
@@ -503,7 +503,7 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap-runtime.ps1
 
 ## 外部组件安装指南（下载路径）
 
-**拉取即用边界**：罗盘核心链路（运行时初始化、校验、渲染、99 项离线回归、SEC/HKEX/CNINFO 官方披露发现、招投标/政府 PDF 采集、普通 HTTP 抓取，以及 `multi_free_source` 中 Google News RSS / GitHub / HN 三个免费源）**零外部依赖，克隆仓库即可运行**；`multi_free_source` 的 SearXNG 两源与 ddgs 源属可选增强（见下表）。下表组件全部为可选增强，未安装时对应源优雅降级为 `not_configured` / `unavailable` / `manual_required`，不会崩溃。
+**拉取即用边界**：罗盘核心链路（运行时初始化、校验、渲染、99 项离线回归、SEC/HKEX/CNINFO 官方披露发现、招投标/政府 PDF 采集、普通 HTTP 抓取，以及 `multi_free_source` 中 Google News RSS / GitHub / HN 三个免费源）**零外部依赖，克隆仓库即可运行**；`multi_free_source` 的 SearXNG 两源与 ddgs 源属可选增强（下表组件全部为可选）；未安装时对应源优雅降级为 `not_configured` / `unavailable` / `manual_required`，不会崩溃。
 
 | 组件 | 用途 | 下载/获取方式 | 接入变量 | 不安装的后果 |
 |---|---|---|---|---|
@@ -614,6 +614,6 @@ setx FIRECRAWL_API_KEY "fc-xxxxxxxx"
 |---|---|---|
 | 罗盘 Luopan | v3.7.1 | 28 脚本 / 16 参考文档 / 1052 行 Schema；含回归与安全测试套件 |
 | 罗盘 Luopan（公开版修订 1） | v3.7.1-public.1 | 本机路径全部环境变量化；bootstrap 与 `run.cmd` 统一支持 `LUOPAN_RUNTIME_ROOT`（多 Agent 运行时隔离）；`.gitattributes` 固定行尾约定；README 补齐系统适配矩阵与外部组件下载路径 |
-| ai-worker | v1.3.0 | 材料账本、六层证据边界、修订模式、L0-L3 自检 |
+| ai-worker | v1.3.0 | 材料账本、五层证据边界、修订模式、L0-L3 自检 |
 | personal-narrative | v1.0.0 | persona 卡、CGED 四类句法自审、特色词保留率清单 |
 | 搜索适配层 | — | 随罗盘演进；契约见 `luopan/references/tool-adapters.md` |

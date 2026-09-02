@@ -19,6 +19,8 @@
 ### 修正
 - README「拉取即用边界」措辞精确化：`multi_free_source` 中零外部依赖的为 Google News RSS / GitHub / HN 三个免费源；SearXNG 两源与 ddgs 源属可选增强（此前"6 个免费源零外部依赖"不精确）
 - README 系统要求表：注明 MediaCrawler 适配器的超时清理逻辑仅 Windows（依赖 `taskkill`）
+- README 语言精修（按 ai-worker 修订模式，in-place 范围）：术语一致（这句话→这条承诺）、动宾匹配（执行投资访谈门→须通过投资访谈门）、可定位指代（MediaCrawler 官方 README 的旧参数名）、补连接词、消除跨节重复事实
+- **事实修正**：README 两处"六层证据边界"改为"五层证据边界"——经核对 `writing-skills/ai-worker/SKILL.md`，证据边界恰为五层（官方声称/展示上限/基准测试/个人测试/生产使用），此前表述与实际技能文件不符
 - `.gitignore` 增加 `output/`（渲染产物）
 
 ## [v3.7.1-public.1] - 2026-09-02
