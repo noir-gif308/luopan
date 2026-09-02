@@ -1,0 +1,10 @@
+# 统一换行约定：Windows 脚本强制 CRLF（cmd.exe/PowerShell 原生行尾），
+# 其余文件按平台 checkout；每个工作副本内部字节一致，bootstrap 与 run 校验自洽。
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.js text eol=lf
+*.txt text eol=lf

@@ -1,5 +1,5 @@
 param(
-    [string]$RuntimeRoot = (Join-Path $env:LOCALAPPDATA 'Luopan\runtime'),
+    [string]$RuntimeRoot = (if ($env:LUOPAN_RUNTIME_ROOT) { $env:LUOPAN_RUNTIME_ROOT } else { Join-Path $env:LOCALAPPDATA 'Luopan\runtime' }),
     [string]$PythonVersion = '3.13',
     [string]$UvPath,
     [string]$Wheelhouse,

@@ -43,9 +43,11 @@
    - [personal-narrative：第一人称个人叙事](#personal-narrative第一人称个人叙事)
    - [写作四线系统的关系](#写作四线系统的关系)
 6. [快速开始](#快速开始)
-7. [安全与合规声明](#安全与合规声明)
-8. [许可证与第三方依赖](#许可证与第三方依赖)
-9. [版本历史](#版本历史)
+7. [系统适配与运行环境](#系统适配与运行环境)
+8. [外部组件安装指南（下载路径）](#外部组件安装指南下载路径)
+9. [安全与合规声明](#安全与合规声明)
+10. [许可证与第三方依赖](#许可证与第三方依赖)
+11. [版本历史](#版本历史)
 
 ---
 
@@ -292,7 +294,7 @@ SearXNG 只承担广搜层的候选发现职责，不冒充垂直数据库；垂
 | `TWITTER_SEARCH_JS` / `XUEQIU_SEARCH_JS` | 本地浏览器采集脚本位置（本仓库 `adapters/multi-free-js/` 提供） | 对应源跳过 |
 | `MEDIACRAWLER_DIR` | MediaCrawler 项目目录（社媒适配器） | 预检返回"环境变量未设置"，不尝试运行 |
 | `LUOPAN_RAW_DIR` | 社媒原始材料落盘目录 | 默认 `raw/social` |
-| `LUOPAN_RUNTIME_ROOT` | 运行时根目录覆盖 | 默认 `%LOCALAPPDATA%\Luopan\runtime` |
+| `LUOPAN_RUNTIME_ROOT` | 运行时根目录覆盖（bootstrap 与 `run.cmd` 统一支持，用于多 Agent 运行时隔离） | 默认 `%LOCALAPPDATA%\Luopan\runtime` |
 | `CHROMIUM_PATH` | `multi-free-js` 脚本的浏览器路径 | 脚本报错退出并提示设置 |
 
 ### 凭据与安全边界
@@ -344,11 +346,37 @@ SearXNG 只承担广搜层的候选发现职责，不冒充垂直数据库；垂
 | **Claude Code** | SKILL.md frontmatter 格式兼容，直接放入技能目录 | 同上；初始化器与 Agent 无关 | ⚠️ 格式兼容，未在本机实测 |
 | 其他遵循 SKILL.md 约定的框架 | 目录整体拷贝即可 | 同上 | 按框架能力自测 |
 
+**各 Agent 的技能安装位置**：
+
+| Agent | 用户级安装 | 项目级安装 |
+|---|---|---|
+| Codex | `~/.codex/skills/luopan/`（把本仓库 `luopan/` 目录整体放入） | `<项目>/.codex/skills/luopan/` |
+| Claude Code | `~/.claude/skills/luopan/` | `<项目>/.claude/skills/luopan/` |
+| Hermes | 任意目录，然后挂载（示例见下） | — |
+
+Hermes 挂载示例（`config.yaml`）：
+
+```yaml
+skills:
+  external_dirs:
+    - E:/path/to/luopan-repo/luopan   # 指向本仓库的 luopan/ 目录
+```
+
+**多 Agent 运行时隔离**：每个 Agent 可拥有独立运行时（`LUOPAN_RUNTIME_ROOT` 环境变量，bootstrap 与 `run.cmd` 统一支持），互不干扰、互不覆盖：
+
+```powershell
+# Agent A 用独立运行时，与系统默认运行时（%LOCALAPPDATA%\Luopan\runtime）并存：
+$env:LUOPAN_RUNTIME_ROOT = "D:\agent-runtimes\agent-a"
+powershell -ExecutionPolicy Bypass -File .\bootstrap-runtime.ps1
+.\run.cmd runtime_smoke.py
+```
+
 **多 Agent 并发的关键设计**：
 
 1. **运行时唯一且位于技能目录之外**：多个 Agent 同时初始化同一运行时由命名互斥锁串行化；Agent A 升级技能不会清掉 Agent B 的运行时；
 2. **执行入口唯一**：`run.cmd` 解析脚本路径、校验 requirements 哈希、拒绝绝对路径脚本——任何 Agent 都必须经过同一入口，规避各 Agent 自带 Python 的 ABI 差异；
-3. **依赖固定版本**：运行时只装 3 个固定版本包；抓取器（Scrapling）与社媒爬虫（MediaCrawler）各自独立建环境，不向罗盘运行时叠加依赖。
+3. **依赖固定版本**：运行时只装 3 个固定版本包；抓取器（Scrapling）与社媒爬虫（MediaCrawler）各自独立建环境，不向罗盘运行时叠加依赖；
+4. **字节一致性自检**：requirements 文件哈希不一致时 `run.cmd` 拒绝执行并提示重新 bootstrap——防止某 Agent 更新文件后与运行时状态脱节（自愈机制，重新 bootstrap 即恢复）。
 
 **子代理部署注意**：子代理不继承父会话已加载的技能上下文。把研究任务委派给子代理时，必须显式注入相关 `references/` 的核心要点（触发场景、关键命令、坑），只写技能名是不够的——这是跨 Agent 复用该类技能最常见的失效模式。
 
@@ -410,7 +438,7 @@ humanizer        英文向清理（本仓库外，未开源）
 
 ## 快速开始
 
-**前置要求**：Windows 10+ / PowerShell 5.1+；联网（首次初始化下载 Python 与 3 个固定版本依赖）；可选 `uv`（初始化器优先复用）。
+**前置要求**：Windows 10/11（x64）+ Windows PowerShell 5.1+；首次初始化需联网（下载 Python 与 3 个固定版本依赖，走 uv 缓存；完全离线见下文）；可选 `uv`（初始化器优先复用）。
 
 ```powershell
 # 1. 初始化隔离运行时（幂等，重复运行无副作用）
@@ -426,13 +454,142 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap-runtime.ps1
 .\run.cmd validate_research.py examples\deep-synthetic.json
 .\run.cmd render_report.py examples\deep-synthetic.json --out-dir output
 
-# 4.（推荐）离线回归：安全 + 语义全量
+# 4.（推荐）离线回归：安全 + 语义全量（99 项）
 .\run.cmd regression_suite.py
+
+# 5. 反例夹具必须失败——校验器有效性的证据（预期：非零退出 + 明确报错）
+.\run.cmd validate_research.py examples\invalid-date-format.json
 ```
 
 **一次最小研究**（Quick 模式）：让 Agent 加载 `luopan/SKILL.md`，按读取规则先读 `references/research-intake.md` 完成访谈，随后 `search_health.py` 探针 → `vertical_plan.py` 查询计划 → 结构化采集 → `validate_research.py` → `render_report.py`。
 
 **完全离线部署**：`bootstrap-runtime.ps1 -Offline [-Wheelhouse D:\packages\luopan-wheelhouse]`（wheelhouse 须含 `requirements-runtime.txt` 全部传递依赖的二进制 wheel）。
+
+---
+
+## 系统适配与运行环境
+
+### 操作系统兼容性
+
+| 平台 | 状态 | 说明 |
+|---|---|---|
+| **Windows 10 / 11（x64）** | ✅ 原生验证（开发与测试主平台） | 需 Windows PowerShell 5.1+（系统自带）；执行入口为 `run.cmd`（cmd.exe） |
+| Windows 11（ARM64） | ⚠️ 未实测 | uv 可提供 ARM64 版 Python；浏览器类组件（`LUOPAN_CHROMIUM` / `CHROMIUM_PATH`）需自行指向 ARM 浏览器 |
+| macOS | ⚠️ 未实测（核心脚本跨平台） | 28 个 Python 脚本均为标准库实现、无 Windows 专用 API；但 `bootstrap-runtime.ps1` / `run.cmd` / `run.ps1` 为 PowerShell + cmd 实现，需 PowerShell 7（pwsh）手工适配，未在 macOS 验证 |
+| Linux | ⚠️ 未实测（核心脚本跨平台） | 同上；`luopan_dynamic_bridge.py` 的系统 Chrome 回退路径按 Windows 默认路径写死，Linux 需显式设置 `LUOPAN_CHROMIUM` |
+
+### 运行环境要求
+
+| 项目 | 要求 |
+|---|---|
+| Python | **不依赖系统安装**——bootstrap 经 uv 自管 Python 3.13 + 3 个固定版本依赖（`PyYAML==6.0.3` / `jsonschema[format]==4.26.0` / `Markdown==3.10.2`），安装在技能目录之外，不污染系统 Python |
+| Shell | Windows 原生 PowerShell 5.1+；非 Windows 需 pwsh 7+（未实测） |
+| 硬件 | 无 GPU 要求；内存/CPU 无特殊门槛；磁盘约 100-200 MB（运行时）+ 研究产物按需增长 |
+| 网络 | 仅首次初始化需联网（下载 Python 与依赖，走 uv 缓存；或离线 wheelhouse 方案）；日常研究按所配置采集源需要网络 |
+| 行尾与一致性 | 仓库以 `.gitattributes` 固定 Windows 脚本 CRLF、其余 LF；requirements 文件哈希自检保证 bootstrap 与 run 的字节一致性（不一致时提示重新 bootstrap，自愈） |
+
+### 各可选组件的系统要求
+
+| 组件 | 系统要求 |
+|---|---|
+| 本地 SearXNG | Win/macOS/Linux 均可；推荐 Docker（Docker Desktop 或 Docker Engine） |
+| RSSHub | 同上；也可 pnpm 裸跑（需 Node 20+） |
+| Scrapling | 跨平台 Python 库；其专用 Chromium 由 Scrapling 自身管理 |
+| MediaCrawler | 跨平台（Python）；首次登录需要可扫码的浏览器窗口；部分平台对 IP/账号风控严格（快手尤其易踢登录态） |
+| Node.js + playwright-core | Node 18+（LTS 推荐）；Chromium 由 `npx playwright install chromium` 下载 |
+| Firecrawl | 纯云 API，无系统要求（需注册 key） |
+
+---
+
+## 外部组件安装指南（下载路径）
+
+**拉取即用边界**：罗盘核心链路（运行时初始化、校验、渲染、99 项离线回归、SEC/HKEX/CNINFO 官方披露发现、招投标/政府 PDF 采集、普通 HTTP 抓取、`multi_free_source` 的 6 个免费源）**零外部依赖，克隆仓库即可运行**。下表组件全部为可选增强，未安装时对应源优雅降级为 `not_configured` / `unavailable` / `manual_required`，不会崩溃。
+
+| 组件 | 用途 | 下载/获取方式 | 接入变量 | 不安装的后果 |
+|---|---|---|---|---|
+| **SearXNG** | 广搜层中文优先元搜索 | [github.com/searxng/searxng](https://github.com/searxng/searxng)（Docker 镜像 `searxng/searxng`；全套部署 [searxng-docker](https://github.com/searxng/searxng-docker)） | `SEARXNG_URL`（默认 `http://localhost:8080`） | 广搜层该源不可用，其余免费源继续工作 |
+| **RSSHub** | 为无原生 RSS 的站点生成订阅源，供 `source_discovery.py site-feed` 使用；其 env 文件也可作为 cookie 存放位置 | [github.com/DIYgod/RSSHub](https://github.com/DIYgod/RSSHub)（Docker 镜像 `diygod/rsshub`；文档 [docs.rsshub.app](https://docs.rsshub.app/)） | 产物为 URL 直接使用；cookie 文件经 `RSSHUB_ENV_FILE` 引用 | 无原生 feed 的站点少一个候选通道 |
+| **Scrapling** | 反指纹动态抓取后备（browser_capture 的 dynamic 层） | [github.com/D4Vinci/Scrapling](https://github.com/D4Vinci/Scrapling) | `SCRAPLING_PYTHON` | 动态页后备不可用，返回 `manual_required` |
+| **MediaCrawler** | 社媒 7 平台垂直采集（⚠️ NON-COMMERCIAL 许可） | [github.com/NanmiCoder/MediaCrawler](https://github.com/NanmiCoder/MediaCrawler) | `MEDIACRAWLER_DIR` | 社媒垂直源 `not_configured` |
+| **Node.js** | 推特/雪球采集脚本运行时 | [nodejs.org](https://nodejs.org/)（LTS） | `NODE` / `NODE_PATH` | 推特、雪球源跳过 |
+| **playwright-core** | 本地浏览器自动化库 | `npm install playwright-core` | `NODE_PATH` | 同上 |
+| **Chromium / Chrome** | 浏览器可执行文件（JS 脚本与 Python bridge 共用） | `npx playwright install chromium`（下载到 `%LOCALAPPDATA%\ms-playwright\`）或 [google.com/chrome](https://www.google.com/chrome/) | `CHROMIUM_PATH`（JS）/ `LUOPAN_CHROMIUM`（Python bridge） | JS 脚本拒绝启动；bridge 回退系统 Chrome |
+| **Firecrawl** | 搜索+抓取一体化 API | [firecrawl.dev](https://www.firecrawl.dev) 注册创建 key | `FIRECRAWL_API_KEY` | `not_configured`（绝不静默回退） |
+| **uv** | Python 版本与依赖管理 | [github.com/astral-sh/uv](https://github.com/astral-sh/uv)（`winget install astral-sh.uv` 或 `pip install uv`） | bootstrap 自动探测 | 初始化时自动安装 |
+| **Docker Desktop** | SearXNG / RSSHub 容器运行 | [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/) | 无 | 影响上述容器组件 |
+| **ddgs** | DuckDuckGo 免 key 搜索包（multi_free 可选源） | `pip install ddgs`（装入罗盘运行时 venv，不影响 requirements 哈希） | 无 | 该源自动降级，其余 5 个免费源继续工作 |
+
+### 分步安装命令（Windows 示例；macOS/Linux 替换对应路径格式）
+
+**SearXNG**：
+
+```powershell
+docker run -d --name searxng -p 8080:8080 -v searxng-data:/etc/searxng searxng/searxng
+# 验证 JSON 接口可用：
+curl "http://127.0.0.1:8080/search?q=test&format=json"
+# 全套部署（含多引擎配置）：https://github.com/searxng/searxng-docker
+```
+
+> 建议在 SearXNG settings 中启用中文引擎（bing、baidu 等），中文检索质量显著优于默认引擎集。
+
+**RSSHub**：
+
+```powershell
+docker run -d --name rsshub -p 1200:1200 diygod/rsshub
+# 验证：
+curl "http://127.0.0.1:1200/github/trending/daily"
+# 路由文档：https://docs.rsshub.app/
+```
+
+> 生成的订阅源 URL 可直接作为 `source_discovery.py site-feed <url>` 的输入，把无原生 RSS 的站点纳入官方披露发现链路。
+
+**Scrapling**：
+
+```powershell
+git clone https://github.com/D4Vinci/Scrapling.git
+cd Scrapling
+uv sync        # 按其官方 uv.lock 自建；严禁与罗盘运行时共用 venv（不同 Python ABI 的 .pyd 会出隐蔽错误）
+# 登记解释器路径：
+setx SCRAPLING_PYTHON "E:\path\to\Scrapling\.venv\Scripts\python.exe"
+```
+
+**MediaCrawler**：
+
+```powershell
+git clone https://github.com/NanmiCoder/MediaCrawler.git
+cd MediaCrawler
+uv sync
+setx MEDIACRAWLER_DIR "E:\path\to\MediaCrawler"
+# 首次使用某平台时，适配器会输出扫码指引（--lt qrcode），扫码一次后登录态持久化
+```
+
+> ⚠️ MediaCrawler 本体为 NON-COMMERCIAL LEARNING LICENSE 1.1，仅限学习用途；本仓库只提供接口封装层（MIT），不包含、不分发其代码。
+
+**Node.js + playwright-core + Chromium**：
+
+```powershell
+# 1. 安装 Node LTS：https://nodejs.org/
+# 2. 在本仓库的 JS 适配器目录安装依赖与浏览器：
+cd adapters\multi-free-js
+npm install playwright-core
+npx playwright install chromium
+# 3. 登记路径（Chromium 通常在 %LOCALAPPDATA%\ms-playwright\chromium-XXXX\chrome-win64\chrome.exe）：
+setx CHROMIUM_PATH    "<chromium.exe 完整路径>"
+setx NODE             "<node.exe 完整路径>"
+setx TWITTER_SEARCH_JS "E:\path\to\luopan-repo\adapters\multi-free-js\twitter_search.js"
+setx XUEQIU_SEARCH_JS  "E:\path\to\luopan-repo\adapters\multi-free-js\xueqiu_search.js"
+```
+
+> 推特源还需 `RSSHUB_ENV_FILE` 指向一个含 `TWITTER_COOKIES=<完整 cookie header>` 的文件；雪球 hot 模式免 cookie、搜索模式当前 API 亦免 cookie。
+
+**Firecrawl**：
+
+```powershell
+# 在 https://www.firecrawl.dev 注册并创建 API Key 后：
+setx FIRECRAWL_API_KEY "fc-xxxxxxxx"
+# 罗盘内置月度 1000 积分硬上限（发送请求前检查账本），
+# 账本位置：%LOCALAPPDATA%\Luopan\firecrawl-usage.json（只记用量，不记查询文本）
+```
 
 ---
 
@@ -454,6 +611,7 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap-runtime.ps1
 | 组件 | 版本 | 说明 |
 |---|---|---|
 | 罗盘 Luopan | v3.7.1 | 28 脚本 / 16 参考文档 / 1052 行 Schema；含回归与安全测试套件 |
+| 罗盘 Luopan（公开版修订 1） | v3.7.1-public.1 | 本机路径全部环境变量化；bootstrap 与 `run.cmd` 统一支持 `LUOPAN_RUNTIME_ROOT`（多 Agent 运行时隔离）；`.gitattributes` 固定行尾约定；README 补齐系统适配矩阵与外部组件下载路径 |
 | ai-worker | v1.3.0 | 材料账本、六层证据边界、修订模式、L0-L3 自检 |
 | personal-narrative | v1.0.0 | persona 卡、CGED 四类句法自审、特色词保留率清单 |
 | 搜索适配层 | — | 随罗盘演进；契约见 `luopan/references/tool-adapters.md` |
