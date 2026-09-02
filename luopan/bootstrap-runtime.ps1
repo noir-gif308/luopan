@@ -11,6 +11,10 @@ if (-not $RuntimeRoot) {
 }
 
 $ErrorActionPreference = 'Stop'
+# PowerShell 7.3+ 中若此开关为 $true，原生命令的 stderr 会被提升为错误记录，
+# 与 EAP=Stop 叠加会把"预期失败 → 回退下载"的流程打断在 stderr 噪音上。
+# 本脚本显式检查 $LASTEXITCODE，故在此关闭该提升（PS 5.1 下仅为无害变量）。
+$PSNativeCommandUseErrorActionPreference = $false
 $skillRoot = [IO.Path]::GetFullPath((Split-Path -Parent $MyInvocation.MyCommand.Path)).TrimEnd(
     [IO.Path]::DirectorySeparatorChar,
     [IO.Path]::AltDirectorySeparatorChar
