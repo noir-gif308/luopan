@@ -19,6 +19,12 @@ jobs:
       - name: 检出代码
         uses: actions/checkout@v4
 
+      - name: 安装 uv（bootstrap 依赖）
+        shell: pwsh
+        run: |
+          irm https://astral.sh/uv/install.ps1 | iex
+          "$env:LOCALAPPDATA\uv\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+
       - name: 初始化隔离运行时（bootstrap）
         shell: pwsh
         run: powershell -NoProfile -ExecutionPolicy Bypass -File .\bootstrap-runtime.ps1
