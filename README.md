@@ -495,7 +495,7 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap-runtime.ps1
 | 本地 SearXNG | Win/macOS/Linux 均可；推荐 Docker（Docker Desktop 或 Docker Engine） |
 | RSSHub | 同上；也可 pnpm 裸跑（需 Node 20+） |
 | Scrapling | 跨平台 Python 库；其专用 Chromium 由 Scrapling 自身管理 |
-| MediaCrawler | 跨平台（Python）；首次登录需要可扫码的浏览器窗口；部分平台对 IP/账号风控严格（快手尤其易踢登录态） |
+| MediaCrawler | 跨平台（Python）；适配器超时清理逻辑仅 Windows（依赖 `taskkill`）；首次登录需要可扫码的浏览器窗口；部分平台对 IP/账号风控严格（快手尤其易踢登录态） |
 | Node.js + playwright-core | Node 18+（LTS 推荐）；Chromium 由 `npx playwright install chromium` 下载 |
 | Firecrawl | 纯云 API，无系统要求（需注册 key） |
 
@@ -503,7 +503,7 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap-runtime.ps1
 
 ## 外部组件安装指南（下载路径）
 
-**拉取即用边界**：罗盘核心链路（运行时初始化、校验、渲染、99 项离线回归、SEC/HKEX/CNINFO 官方披露发现、招投标/政府 PDF 采集、普通 HTTP 抓取、`multi_free_source` 的 6 个免费源）**零外部依赖，克隆仓库即可运行**。下表组件全部为可选增强，未安装时对应源优雅降级为 `not_configured` / `unavailable` / `manual_required`，不会崩溃。
+**拉取即用边界**：罗盘核心链路（运行时初始化、校验、渲染、99 项离线回归、SEC/HKEX/CNINFO 官方披露发现、招投标/政府 PDF 采集、普通 HTTP 抓取，以及 `multi_free_source` 中 Google News RSS / GitHub / HN 三个免费源）**零外部依赖，克隆仓库即可运行**；`multi_free_source` 的 SearXNG 两源与 ddgs 源属可选增强（见下表）。下表组件全部为可选增强，未安装时对应源优雅降级为 `not_configured` / `unavailable` / `manual_required`，不会崩溃。
 
 | 组件 | 用途 | 下载/获取方式 | 接入变量 | 不安装的后果 |
 |---|---|---|---|---|
@@ -607,6 +607,8 @@ setx FIRECRAWL_API_KEY "fc-xxxxxxxx"
 - 第三方运行时依赖（不随仓库分发）：Scrapling（按其许可证与 `uv.lock` 自建）、MediaCrawler（NON-COMMERCIAL LEARNING LICENSE 1.1）、本地 SearXNG（AGPL-3.0）、Firecrawl（官方 API 服务）、DuckDuckGo / GitHub / HN / Google News 公开接口。
 
 ## 版本历史
+
+完整变更记录见 [CHANGELOG.md](./CHANGELOG.md)。当前公开版各组件版本：
 
 | 组件 | 版本 | 说明 |
 |---|---|---|

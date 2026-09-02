@@ -1,0 +1,50 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  luopan-windows:
+    name: Luopan 全链路验证（Windows）
+    runs-on: windows-latest
+    env:
+      LUOPAN_RUNTIME_ROOT: ${{ runner.temp }}\luopan-runtime
+    defaults:
+      run:
+        working-directory: luopan
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 初始化隔离运行时（bootstrap）
+        shell: pwsh
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\bootstrap-runtime.ps1
+
+      - name: 运行时冒烟
+        shell: cmd
+        run: run.cmd runtime_smoke.py
+
+      - name: 技能自校验
+        shell: cmd
+        run: run.cmd validate_skill.py
+
+      - name: 离线回归套件（99 项：安全 + 语义）
+        shell: cmd
+        run: run.cmd regression_suite.py
+
+      - name: 示例渲染（校验 + 渲染同源）
+        shell: cmd
+        run: run.cmd render_report.py examples\deep-synthetic.json --out-dir _ci-output
+
+      - name: 反例夹具必须失败（校验器有效性证据）
+        shell: pwsh
+        run: |
+          & .\run.cmd validate_research.py examples\invalid-date-format.json 2>$null
+          if ($LASTEXITCODE -eq 0) {
+            Write-Error "invalid-date-format.json 意外通过校验——校验器可能已失效"
+            exit 1
+          }
+          Write-Host "反例夹具被正确拒绝（exit $LASTEXITCODE）"

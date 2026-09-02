@@ -2,6 +2,7 @@
 # 以下目录/文件属本机研究产物，永不提交
 work/
 raw/
+output/
 *.pyc
 __pycache__/
 .DS_Store
