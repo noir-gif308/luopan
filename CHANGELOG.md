@@ -7,8 +7,14 @@
 ## [v3.7.1-public.2] - 2026-09-02
 
 ### 新增
-- `.github/workflows/ci.yml`：GitHub Actions 持续验证（Windows runner 上完成 bootstrap → 冒烟 → 技能自校验 → 99 项离线回归 → 示例渲染 → 反例夹具必须失败），每次推送自动执行
+- `.github/workflows/ci.yml`：GitHub Actions 持续验证（Windows runner 上完成 bootstrap → 冒烟 → 技能自校验 → 99 项离线回归 → 示例渲染 → 反例夹具必须失败），每次推送自动执行并已验证全绿
 - `CHANGELOG.md`：本文件
+
+### 修复
+- `bootstrap-runtime.ps1` 三处健壮性修复（均在 CI runner 与本机双重验证）：
+  1. 盘符根目录边界：`LUOPAN_RUNTIME_ROOT` 直接位于盘符根下时父目录解析为 `D:\` 导致 `New-Item` 报路径非法 → 改为 `Test-Path` 先查再建
+  2. PowerShell 5.1/7.3+ 原生命令 stderr 行为：EAP=Stop 下 stderr 在重定向前即被提升为终止错误，打断"预期失败 → 回退下载"流程 → 可失败原生命令周围临时降 EAP、显式依赖 `$LASTEXITCODE`
+  3. **编码修复**：`.ps1` 由 UTF-8 无 BOM 转为 UTF-8 with BOM——PS 5.1 对无 BOM 文件按系统 ANSI 码页解码，中文注释字节错位会吞掉后续代码行（已复现）；BOM 后 PS 5.1/7 均按 UTF-8 正确解码
 
 ### 修正
 - README「拉取即用边界」措辞精确化：`multi_free_source` 中零外部依赖的为 Google News RSS / GitHub / HN 三个免费源；SearXNG 两源与 ddgs 源属可选增强（此前"6 个免费源零外部依赖"不精确）
