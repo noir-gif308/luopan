@@ -91,7 +91,13 @@ if (
 ) {
     throw 'RuntimeRoot must be outside the skill directory so upgrades cannot delete the environment.'
 }
-New-Item -ItemType Directory -Path (Split-Path -Parent $RuntimeRoot), $uvCache -Force | Out-Null
+$runtimeParent = Split-Path -Parent $RuntimeRoot
+if (-not (Test-Path -LiteralPath $runtimeParent)) {
+    New-Item -ItemType Directory -Path $runtimeParent -Force | Out-Null
+}
+if (-not (Test-Path -LiteralPath $uvCache)) {
+    New-Item -ItemType Directory -Path $uvCache -Force | Out-Null
+}
 $env:UV_CACHE_DIR = $uvCache
 $env:PYTHONUTF8 = '1'
 $env:PYTHONDONTWRITEBYTECODE = '1'
