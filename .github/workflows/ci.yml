@@ -54,3 +54,4 @@ jobs:
             exit 1
           }
           Write-Host "反例夹具被正确拒绝（exit $LASTEXITCODE）"
+          exit 0
