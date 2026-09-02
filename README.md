@@ -384,6 +384,8 @@ powershell -ExecutionPolicy Bypass -File .\bootstrap-runtime.ps1
 
 ## 写作双技能
 
+> 本节两个技能同时以独立分发版发布在 [noir-gif308/writing-skills](https://github.com/noir-gif308/writing-skills)，面向写作与内容人群；两处版本一一对应，内容修订以本仓库为源。
+
 两个写作技能与罗盘共享同一认识论：**不发明**。ai-worker 用"不发明"限制声称强度；personal-narrative 用"不发明"保证写出来的人是用户本人。
 
 ### ai-worker：证据驱动内容系统
