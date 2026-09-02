@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$RuntimeRoot,
     [string]$PythonVersion = '3.13',
     [string]$UvPath,
@@ -142,17 +142,27 @@ if ($needsVenv) {
         $findArgs += '--offline'
     }
     $findArgs += @('python', 'find', '--no-project', '--managed-python', '--no-python-downloads', $PythonVersion)
+    # PS 5.1 下 EAP=Stop 会把原生命令 stderr 在重定向前转成终止错误；预期失败的原生命令
+    # 周围临时降为 Continue，显式依赖 $LASTEXITCODE 判断（成功路径与失败回退都走显式检查）。
+    $prevEAP = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
     $basePython = (& $uv @findArgs 2>$null | Select-Object -Last 1)
+    $ErrorActionPreference = $prevEAP
     if ($LASTEXITCODE -ne 0 -or -not $basePython) {
         if ($Offline) {
             throw "Python $PythonVersion is not available locally and -Offline forbids downloading it."
         }
         Write-Host "Python $PythonVersion is not installed in uv; downloading it now."
+        $ErrorActionPreference = 'Continue'
         & $uv --no-config python install $PythonVersion
-        if ($LASTEXITCODE -ne 0) {
+        $installExit = $LASTEXITCODE
+        $ErrorActionPreference = $prevEAP
+        if ($installExit -ne 0) {
             throw "uv could not install Python $PythonVersion"
         }
+        $ErrorActionPreference = 'Continue'
         $basePython = (& $uv --no-config python find --no-project --managed-python --no-python-downloads $PythonVersion | Select-Object -Last 1)
+        $ErrorActionPreference = $prevEAP
     }
 
     $venvArgs = @('--no-config', 'venv', '--no-project', '--python', ([string]$basePython).Trim())
