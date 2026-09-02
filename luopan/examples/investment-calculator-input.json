@@ -1,0 +1,42 @@
+{
+  "valuation_as_of": "2026-07-25",
+  "reference_value": 10,
+  "reference_value_type": "price_per_share",
+  "currency": "CNY",
+  "horizon_years": 5,
+  "scenarios": [
+    {
+      "id": "val-downside",
+      "case": "downside",
+      "method": "synthetic earnings multiple",
+      "target_value": 7,
+      "formula": "synthetic normalized EPS * downside multiple",
+      "assumptions": [{"name": "downside assumption", "value": "synthetic", "basis": "model_judgment", "rationale": "calculator fixture", "evidence_ids": []}],
+      "evidence_ids": ["evd-price"],
+      "confidence": "low",
+      "falsifier": "Synthetic downside assumption changes."
+    },
+    {
+      "id": "val-base",
+      "case": "base",
+      "method": "synthetic earnings multiple",
+      "target_value": 14,
+      "formula": "synthetic normalized EPS * base multiple",
+      "assumptions": [{"name": "base assumption", "value": "synthetic", "basis": "model_judgment", "rationale": "calculator fixture", "evidence_ids": []}],
+      "evidence_ids": ["evd-price"],
+      "confidence": "low",
+      "falsifier": "Synthetic base assumption changes."
+    },
+    {
+      "id": "val-upside",
+      "case": "upside",
+      "method": "synthetic earnings multiple",
+      "target_value": 22,
+      "formula": "synthetic normalized EPS * upside multiple",
+      "assumptions": [{"name": "upside assumption", "value": "synthetic", "basis": "model_judgment", "rationale": "calculator fixture", "evidence_ids": []}],
+      "evidence_ids": ["evd-price"],
+      "confidence": "low",
+      "falsifier": "Synthetic upside assumption changes."
+    }
+  ]
+}

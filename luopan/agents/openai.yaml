@@ -1,0 +1,4 @@
+interface:
+  display_name: "罗盘 v3.7.1"
+  short_description: "深挖企业证据，并按需审计投资与专项判断"
+  default_prompt: "Use $luopan to run an adaptive intake interview, keep ordinary company intelligence as the default, and enable only the minimum explicitly relevant investment or analysis lenses, including decision_audit only for explicit decision-discipline requests, before producing an evidence-traceable report."

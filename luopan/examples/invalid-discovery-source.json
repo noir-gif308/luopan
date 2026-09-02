@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "title": "故意损坏的校验样例",
+    "generated_at": "2026-07-12T12:00:00+08:00",
+    "mode": "quick",
+    "research_purpose": "intelligence",
+    "verification_mode": "none"
+  },
+  "scope": {
+    "subject": "无效样例",
+    "geography": "中国",
+    "timeframe": "2026",
+    "decision_question": "验证校验器能否拦截搜索摘要"
+  },
+  "intake": {
+    "interaction_mode": "defaults_disclosed",
+    "questions_asked": [],
+    "user_answers": [],
+    "assumptions": ["这是应被校验器拒绝的负面用例。"],
+    "unresolved_questions": [],
+    "authorized_access": ["公开示例数据"]
+  },
+  "sources": [
+    {
+      "id": "src-search",
+      "title": "搜索摘要",
+      "url": "https://example.com/search",
+      "retrieved_at": "2026-07-12",
+      "authority": "tertiary",
+      "evidence_type": "media",
+      "verification": "discovery_only",
+      "excerpt": null
+    }
+  ],
+  "entities": [],
+  "claims": [
+    {
+      "id": "clm-invalid",
+      "statement": "这条结论不应该通过",
+      "claim_type": "fact",
+      "confidence": "high",
+      "evidence_ids": ["src-search"],
+      "implication": "校验器必须报错。"
+    }
+  ],
+  "limitations": ["故意损坏。"]
+}

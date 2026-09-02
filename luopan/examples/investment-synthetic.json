@@ -1,0 +1,453 @@
+{
+  "meta": {
+    "title": "合成上市企业投资视角示例",
+    "generated_at": "2026-07-25T18:00:00+08:00",
+    "mode": "quick",
+    "research_purpose": "investment",
+    "analysis_lenses": ["earnings_delta", "thesis_drift", "management", "income", "decision_audit"],
+    "verification_mode": "self_review",
+    "research_status": "partial",
+    "information_regime": "listed"
+  },
+  "scope": {
+    "subject": "合成上市企业",
+    "geography": "中国",
+    "timeframe": "2026-2031",
+    "decision_question": "以五年持有期判断合成证券当前风险回报"
+  },
+  "intake": {
+    "interaction_mode": "user_answered",
+    "questions_asked": ["具体标的、估值日和持有期是什么？"],
+    "user_answers": ["[偏好/约束] 合成证券，2026-07-25，五年，当前未持有。"],
+    "assumptions": ["目标回报和最大损失未提供，不代填风险偏好。"],
+    "unresolved_questions": ["真实风险承受能力未知。"],
+    "authorized_access": ["仅公开合成数据"]
+  },
+  "sources": [
+    {
+      "id": "src-market",
+      "title": "合成交易所行情与股本记录",
+      "url": "https://example.com/synthetic-market-record",
+      "publisher": "合成交易所",
+      "published_at": "2026-07-25",
+      "retrieved_at": "2026-07-25",
+      "authority": "primary",
+      "evidence_type": "market_data",
+      "source_perspective": "regulator",
+      "verification": "verified",
+      "excerpt": "2026-07-25 收盘参考价格为每股 10 元。已发行及潜在稀释股本口径已核对。",
+      "content_hash": null
+    },
+    {
+      "id": "src-filing-investment",
+      "title": "合成企业年度申报",
+      "url": "https://example.com/synthetic-filing",
+      "publisher": "合成企业",
+      "published_at": "2026-04-01",
+      "retrieved_at": "2026-07-25",
+      "authority": "primary",
+      "evidence_type": "filing",
+      "source_perspective": "company",
+      "verification": "verified",
+      "excerpt": "核心业务收入增长。2026 年核心业务收入为 112 亿元，第一大客户收入占比达到 45%。管理层此前承诺 2026 年核心业务收入至少达到 110 亿元，实际达到 112 亿元。2026 年 4 月 1 日披露：经营现金流为 80 亿元，必要资本开支为 20 亿元，现金分红为 30 亿元；分红/自由现金流为 0.5 倍。连续分红历史为 1 年，频率为年度，币种 CNY。",
+      "content_hash": null
+    },
+    {
+      "id": "src-filing-prior",
+      "title": "合成企业上年度申报",
+      "url": "https://example.com/synthetic-filing-prior",
+      "publisher": "合成企业",
+      "published_at": "2025-04-01",
+      "retrieved_at": "2026-07-25",
+      "authority": "primary",
+      "evidence_type": "filing",
+      "source_perspective": "company",
+      "verification": "verified",
+      "excerpt": "2025 年核心业务收入为 100 亿元。管理层承诺 2026 年核心业务收入至少达到 110 亿元。",
+      "content_hash": null
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evd-price",
+      "source_id": "src-market",
+      "locator": "2026-07-25 收盘记录",
+      "excerpt": "2026-07-25 收盘参考价格为每股 10 元。",
+      "stance": "supports",
+      "evidence_kind": "observed_behavior",
+      "observed_at": "2026-07-25",
+      "subject_ids": ["ent-investment"],
+      "quality_flags": ["synthetic_fixture"]
+    },
+    {
+      "id": "evd-capital",
+      "source_id": "src-market",
+      "locator": "股本口径说明",
+      "excerpt": "已发行及潜在稀释股本口径已核对。",
+      "stance": "supports",
+      "evidence_kind": "reported_fact",
+      "observed_at": "2026-07-25",
+      "subject_ids": ["ent-investment"],
+      "quality_flags": ["synthetic_fixture"]
+    },
+    {
+      "id": "evd-business",
+      "source_id": "src-filing-investment",
+      "locator": "年度申报核心业务章节",
+      "excerpt": "核心业务收入增长",
+      "stance": "supports",
+      "evidence_kind": "reported_fact",
+      "observed_at": "2026-04-01",
+      "subject_ids": ["ent-investment"],
+      "quality_flags": ["synthetic_fixture"]
+    },
+    {
+      "id": "evd-risk",
+      "source_id": "src-filing-investment",
+      "locator": "年度申报客户集中度章节",
+      "excerpt": "第一大客户收入占比达到 45%",
+      "stance": "contradicts",
+      "evidence_kind": "reported_fact",
+      "observed_at": "2026-04-01",
+      "subject_ids": ["ent-investment"],
+      "quality_flags": ["synthetic_fixture"]
+    },
+    {
+      "id": "evd-revenue-current",
+      "source_id": "src-filing-investment",
+      "locator": "2026 年度申报收入章节",
+      "excerpt": "2026 年核心业务收入为 112 亿元",
+      "stance": "supports",
+      "evidence_kind": "reported_fact",
+      "observed_at": "2026-04-01",
+      "subject_ids": ["ent-investment"],
+      "quality_flags": ["synthetic_fixture"]
+    },
+    {
+      "id": "evd-revenue-prior",
+      "source_id": "src-filing-prior",
+      "locator": "2025 年度申报收入章节",
+      "excerpt": "2025 年核心业务收入为 100 亿元",
+      "stance": "supports",
+      "evidence_kind": "reported_fact",
+      "observed_at": "2025-04-01",
+      "subject_ids": ["ent-investment"],
+      "quality_flags": ["synthetic_fixture"]
+    },
+    {
+      "id": "evd-promise",
+      "source_id": "src-filing-prior",
+      "locator": "2025 年度申报管理层指引",
+      "excerpt": "管理层承诺 2026 年核心业务收入至少达到 110 亿元",
+      "stance": "supports",
+      "evidence_kind": "reported_fact",
+      "observed_at": "2025-04-01",
+      "subject_ids": ["ent-investment"],
+      "quality_flags": ["synthetic_fixture"]
+    },
+    {
+      "id": "evd-promise-outcome",
+      "source_id": "src-filing-investment",
+      "locator": "2026 年度申报指引复核",
+      "excerpt": "管理层此前承诺 2026 年核心业务收入至少达到 110 亿元，实际达到 112 亿元",
+      "stance": "supports",
+      "evidence_kind": "reported_fact",
+      "observed_at": "2026-04-01",
+      "subject_ids": ["ent-investment"],
+      "quality_flags": ["synthetic_fixture"]
+    },
+    {
+      "id": "evd-income-cash",
+      "source_id": "src-filing-investment",
+      "locator": "2026 年度申报现金流章节",
+      "excerpt": "2026 年 4 月 1 日披露：经营现金流为 80 亿元，必要资本开支为 20 亿元，现金分红为 30 亿元；分红/自由现金流为 0.5 倍。连续分红历史为 1 年，频率为年度，币种 CNY",
+      "stance": "supports",
+      "evidence_kind": "reported_fact",
+      "observed_at": "2026-04-01",
+      "subject_ids": ["ent-investment"],
+      "quality_flags": ["synthetic_fixture"]
+    }
+  ],
+  "entities": [
+    {
+      "id": "ent-investment",
+      "name": "合成上市企业",
+      "entity_type": "listed_company",
+      "value_chain_position": ["合成服务"],
+      "power_tier": "unknown",
+      "evidence_coverage": 0.2,
+      "confidence": "low",
+      "summary": "仅用于投资模式结构与失败关闭测试。"
+    }
+  ],
+  "investment_context": {
+    "asset_type": "listed_equity",
+    "instrument_name": "合成证券",
+    "ticker": "SYN001",
+    "exchange": "SYNEX",
+    "valuation_as_of": "2026-07-25",
+    "holding_period_years": 5,
+    "currency": "CNY",
+    "position_status": "not_held",
+    "cost_basis": null,
+    "required_return": null,
+    "max_loss": null,
+    "access_path": "public_market",
+    "reference_value_type": "price_per_share",
+    "reference_value": 10,
+    "reference_value_evidence_ids": ["evd-price"],
+    "capital_structure_status": "verified",
+    "capital_structure_evidence_ids": ["evd-capital"],
+    "freshness": "fresh"
+  },
+  "investment_theses": [
+    {
+      "id": "invth-business",
+      "thesis_type": "business",
+      "statement": "核心业务收入增长可能支持未来盈利扩张，但客户集中度削弱确定性。",
+      "status": "mixed",
+      "confidence": "medium",
+      "evidence_ids": ["evd-business"],
+      "counter_evidence_ids": ["evd-risk"],
+      "counter_search_status": "searched_found",
+      "counter_search_notes": "检查客户集中度披露。",
+      "falsifiers": ["核心业务收入连续两个报告期下降。"],
+      "monitoring_indicators": ["核心业务收入增长率", "第一大客户收入占比"],
+      "review_cadence": "每季度"
+    },
+    {
+      "id": "invth-valuation",
+      "thesis_type": "valuation",
+      "statement": "参考价格能否提供足够回报取决于五年后的盈利和估值倍数。",
+      "status": "unknown",
+      "confidence": "low",
+      "evidence_ids": ["evd-price"],
+      "counter_evidence_ids": [],
+      "counter_search_status": "searched_none",
+      "counter_search_notes": "合成样例没有独立可比公司数据。",
+      "falsifiers": ["基准情景年化回报低于用户要求。"],
+      "monitoring_indicators": ["参考价格", "正常化盈利", "退出倍数"],
+      "review_cadence": "每次财报后"
+    },
+    {
+      "id": "invth-risk",
+      "thesis_type": "risk",
+      "statement": "客户集中度可能造成收入和估值同时下修。",
+      "status": "supported",
+      "confidence": "medium",
+      "evidence_ids": ["evd-risk"],
+      "counter_evidence_ids": ["evd-business"],
+      "counter_search_status": "searched_found",
+      "counter_search_notes": "同时检查了收入增长信号。",
+      "falsifiers": ["客户占比下降且新增客户收入经披露验证。"],
+      "monitoring_indicators": ["前五大客户占比", "新增客户收入"],
+      "review_cadence": "每半年"
+    }
+  ],
+  "period_reviews": [
+    {
+      "id": "per-fy2026",
+      "current_period": "FY2026",
+      "comparison_period": "FY2025",
+      "as_of": "2026-07-25",
+      "metric_deltas": [
+        {
+          "metric": "核心业务收入",
+          "current_value": 112,
+          "comparison_value": 100,
+          "unit": "亿元",
+          "current_evidence_ids": ["evd-revenue-current"],
+          "comparison_evidence_ids": ["evd-revenue-prior"],
+          "interpretation": "同口径收入增长 12%，但客户集中度仍限制确定性。"
+        }
+      ],
+      "accounting_signals": [
+        {
+          "description": "合成样例未提供会计政策变化",
+          "status": "unknown",
+          "impact": "不能判断收入变化是否受口径影响。",
+          "evidence_ids": []
+        }
+      ],
+      "commitment_ids": ["mcom-revenue-guidance"],
+      "overall_effect": "mixed",
+      "summary": "收入达到上期指引，但客户集中风险没有解除。",
+      "confidence": "medium",
+      "evidence_ids": ["evd-revenue-current", "evd-revenue-prior", "evd-risk"]
+    }
+  ],
+  "management_commitments": [
+    {
+      "id": "mcom-revenue-guidance",
+      "commitment_type": "guidance",
+      "statement": "2026 年核心业务收入至少达到 110 亿元。",
+      "made_at": "2025-04-01",
+      "due_at": "2026-12-31",
+      "status": "met",
+      "original_evidence_ids": ["evd-promise"],
+      "outcome_evidence_ids": ["evd-promise-outcome"],
+      "assessment": "按披露口径达到目标，但尚未核对口径连续性。",
+      "confidence": "medium"
+    }
+  ],
+  "capital_allocation_events": [
+    {
+      "id": "cap-dividend-2026",
+      "event_type": "dividend",
+      "announced_at": "2026-04-01",
+      "amount": 30,
+      "currency": "CNY",
+      "rationale": "在必要资本开支后向股东分配现金。",
+      "status": "completed",
+      "outcome": "合成样例记录现金分红 30 亿元。",
+      "assessment": "自由现金流覆盖分红，但历史稳定性未知。",
+      "confidence": "medium",
+      "evidence_ids": ["evd-income-cash"]
+    }
+  ],
+  "thesis_changes": [
+    {
+      "id": "td-business-2026",
+      "thesis_id": "invth-business",
+      "baseline_as_of": "2025-04-01",
+      "current_as_of": "2026-07-25",
+      "change_type": "evidence",
+      "previous_status": "mixed",
+      "current_status": "mixed",
+      "direction": "unchanged",
+      "trigger_evidence_ids": ["evd-revenue-current", "evd-risk"],
+      "explanation": "收入兑现强化增长证据，但客户集中度仍维持反方约束。",
+      "action_impact": "维持观察，不把收入兑现升级为买入结论。",
+      "confidence": "medium"
+    }
+  ],
+  "income_analysis": {
+    "classification": "opportunistic_income",
+    "evidence_quality": "B",
+    "distribution_profile": {
+      "distribution_type": "ordinary",
+      "frequency": "年度",
+      "currency": "CNY",
+      "history_years": 1,
+      "evidence_ids": ["evd-income-cash"]
+    },
+    "coverage_metrics": [
+      {"metric": "分红/自由现金流", "period": "FY2026", "value": 0.5, "unit": "倍", "evidence_ids": ["evd-income-cash"]}
+    ],
+    "debt_refinancing_assessment": "合成样例缺少债务到期表，不能确认再融资安全。",
+    "scenarios": [
+      {"case": "base", "assumptions": ["经营现金流和必要资本开支稳定"], "calculation": {"cash_components": [{"name": "经营现金流减必要资本开支", "value": 60}], "distribution_amount": 30, "formula": "distributable_cash = sum(cash_components); payout_coverage = distributable_cash / distribution_amount"}, "distributable_cash": 60, "payout_coverage": 2, "debt_effect": "未知", "distribution_outcome": "维持 30 亿元", "valuation_effect": "仅作为总回报的一部分", "evidence_ids": ["evd-income-cash"]},
+      {"case": "adverse", "assumptions": ["自由现金流下降 25%"], "calculation": {"cash_components": [{"name": "压力后可分配现金", "value": 45}], "distribution_amount": 30, "formula": "distributable_cash = sum(cash_components); payout_coverage = distributable_cash / distribution_amount"}, "distributable_cash": 45, "payout_coverage": 1.5, "debt_effect": "再融资缺口仍待核对", "distribution_outcome": "可能维持或小幅削减", "valuation_effect": "收益率上升可能反映价格下跌", "evidence_ids": ["evd-income-cash"]},
+      {"case": "severe", "assumptions": ["自由现金流下降 60%"], "calculation": {"cash_components": [{"name": "重压后可分配现金", "value": 24}], "distribution_amount": 30, "formula": "distributable_cash = sum(cash_components); payout_coverage = distributable_cash / distribution_amount"}, "distributable_cash": 24, "payout_coverage": 0.8, "debt_effect": "若存在到期债务将进一步承压", "distribution_outcome": "需要削减分红", "valuation_effect": "价格与分红可能同时下降", "evidence_ids": ["evd-income-cash"]}
+    ],
+    "blocking_gates": [
+      {"gate": "coverage", "status": "pass", "explanation": "当前期自由现金流覆盖分红。", "evidence_ids": ["evd-income-cash"]},
+      {"gate": "debt_refinancing", "status": "unknown", "explanation": "缺少债务到期表。", "evidence_ids": []},
+      {"gate": "structural_deterioration", "status": "unknown", "explanation": "只有一年分配历史。", "evidence_ids": []},
+      {"gate": "governance_integrity", "status": "unknown", "explanation": "合成样例未覆盖治理。", "evidence_ids": []},
+      {"gate": "evidence_sufficiency", "status": "unknown", "explanation": "证据不足以判断耐久收益。", "evidence_ids": ["evd-income-cash"]}
+    ],
+    "tax_assumptions": ["未提供税务居民地，只报告税前分配。"],
+    "portfolio_fit": "未提供组合信息，只能判断可能的收益角色。",
+    "conclusion": "当前现金覆盖尚可，但历史和债务证据不足，仅适合作为机会收益观察对象。",
+    "confidence": "low"
+  },
+  "valuation_scenarios": [
+    {
+      "id": "val-downside",
+      "case": "downside",
+      "method": "synthetic earnings multiple",
+      "valuation_as_of": "2026-07-25",
+      "horizon_years": 5,
+      "value_type": "price_per_share",
+      "target_value": 7,
+      "currency": "CNY",
+      "formula": "synthetic normalized EPS * downside multiple",
+      "assumptions": [{"name": "downside assumption", "value": "synthetic", "basis": "model_judgment", "rationale": "schema fixture", "evidence_ids": []}],
+      "evidence_ids": ["evd-price"],
+      "expected_total_return": -0.3,
+      "expected_annual_return": -0.068850084905,
+      "confidence": "low",
+      "falsifier": "客户集中风险快速解除。"
+    },
+    {
+      "id": "val-base",
+      "case": "base",
+      "method": "synthetic earnings multiple",
+      "valuation_as_of": "2026-07-25",
+      "horizon_years": 5,
+      "value_type": "price_per_share",
+      "target_value": 14,
+      "currency": "CNY",
+      "formula": "synthetic normalized EPS * base multiple",
+      "assumptions": [{"name": "base assumption", "value": "synthetic", "basis": "model_judgment", "rationale": "schema fixture", "evidence_ids": []}],
+      "evidence_ids": ["evd-price", "evd-business"],
+      "expected_total_return": 0.4,
+      "expected_annual_return": 0.069610375725,
+      "confidence": "low",
+      "falsifier": "核心业务收入停止增长。"
+    },
+    {
+      "id": "val-upside",
+      "case": "upside",
+      "method": "synthetic earnings multiple",
+      "valuation_as_of": "2026-07-25",
+      "horizon_years": 5,
+      "value_type": "price_per_share",
+      "target_value": 22,
+      "currency": "CNY",
+      "formula": "synthetic normalized EPS * upside multiple",
+      "assumptions": [{"name": "upside assumption", "value": "synthetic", "basis": "model_judgment", "rationale": "schema fixture", "evidence_ids": []}],
+      "evidence_ids": ["evd-price", "evd-business"],
+      "expected_total_return": 1.2,
+      "expected_annual_return": 0.170804912965,
+      "confidence": "low",
+      "falsifier": "增长没有转化为正常化盈利。"
+    }
+  ],
+  "investment_conclusion": {
+    "stance": "watch",
+    "rationale": "基准情景回报有限，且客户集中风险没有得到充分补偿。",
+    "price_condition": "仅在重新核验盈利和客户结构后评估更低价格。",
+    "horizon": "五年",
+    "anchor_scenario_id": "val-base",
+    "confidence": "low",
+    "invalidators": ["出现可靠的新客户分散证据或盈利基线发生变化。"],
+    "evidence_ids": ["evd-price", "evd-business", "evd-risk"]
+  },
+  "decision_audit": {
+    "stage": "initial_entry",
+    "overall_status": "blocked",
+    "gates": [
+      {"gate": "thesis_clarity", "status": "pass", "basis": "research_evidence", "explanation": "赚钱机制、客户集中风险和失效条件已写入投资论点。", "evidence_ids": ["evd-business", "evd-risk"], "user_answer_indices": []},
+      {"gate": "circle_of_competence", "status": "unknown", "basis": "user_input", "explanation": "样例没有足够访谈信息确认用户是否理解关键变量。", "evidence_ids": [], "user_answer_indices": []},
+      {"gate": "downside_survivability", "status": "unknown", "basis": "user_input", "explanation": "用户未提供最大可接受损失。", "evidence_ids": [], "user_answer_indices": []},
+      {"gate": "evidence_sufficiency", "status": "fail", "basis": "research_evidence", "explanation": "正常化盈利、净现金和真实可比公司仍未知。", "evidence_ids": ["evd-price", "evd-risk"], "user_answer_indices": []},
+      {"gate": "behavioral_independence", "status": "unknown", "basis": "user_input", "explanation": "没有确认是否受近期涨跌或他人推荐影响。", "evidence_ids": [], "user_answer_indices": []},
+      {"gate": "opportunity_cost", "status": "unknown", "basis": "user_input", "explanation": "没有提供现金、指数或其他候选作为比较基准。", "evidence_ids": [], "user_answer_indices": []}
+    ],
+    "behavioral_flags": [],
+    "opportunity_cost": "尚未与现金、指数或其他候选进行同期限比较。",
+    "conditions": [],
+    "summary": "企业和估值研究尚不足以进入买入考虑，维持观察并补齐用户约束与关键财务证据。",
+    "confidence": "low"
+  },
+  "claims": [
+    {
+      "id": "clm-business",
+      "statement": "核心业务收入增长可能支持未来盈利，但客户集中风险削弱确定性。",
+      "claim_type": "inference",
+      "confidence": "medium",
+      "evidence_ids": ["evd-business"],
+      "counter_evidence_ids": ["evd-risk"],
+      "scope": "合成企业 2026 年申报",
+      "implication": "估值不能只外推收入增长。",
+      "falsifier": "后续经核验披露推翻收入增长或客户集中数据。"
+    }
+  ],
+  "key_unknowns": ["正常化盈利、净现金和真实可比公司未知。"],
+  "limitations": [
+    "这是虚构结构测试，不是投资建议。",
+    "估值假设仅用于验证计算、渲染和失败关闭。"
+  ]
+}

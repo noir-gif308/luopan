@@ -1,0 +1,165 @@
+{
+  "meta": {
+    "title": "信息稀缺企业结构测试",
+    "generated_at": "2026-07-13T20:00:00+08:00",
+    "mode": "quick",
+    "research_purpose": "intelligence",
+    "analysis_lenses": [],
+    "verification_mode": "self_review",
+    "research_status": "partial",
+    "information_regime": "private_sparse"
+  },
+  "scope": {
+    "subject": "示例未上市企业",
+    "geography": "中国",
+    "timeframe": "最近两年",
+    "decision_question": "主体、客户关系和经营规模能否由公开足迹初步验证"
+  },
+  "intake": {
+    "interaction_mode": "defaults_disclosed",
+    "questions_asked": [],
+    "user_answers": [],
+    "assumptions": ["仅用于信息稀缺企业 Schema 和流程测试。"],
+    "unresolved_questions": ["品牌是否由同一法定主体直接运营。"],
+    "authorized_access": ["公开示例数据"]
+  },
+  "sources": [
+    {
+      "id": "src-registry-example",
+      "title": "示例企业登记与公开项目记录",
+      "url": "https://example.com/registry",
+      "publisher": "示例公开登记平台",
+      "published_at": null,
+      "retrieved_at": "2026-07-13",
+      "authority": "primary",
+      "evidence_type": "government",
+      "source_perspective": "regulator",
+      "incentive_bias": "虚构结构样例，不代表真实企业。",
+      "verification": "verified",
+      "excerpt": "法定名称与统一登记号 DEMO-001 对应。一个公开项目的合同区间为 80 至 120 万元。",
+      "notes": "仅用于 Schema 和流程测试。"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evd-example-identity",
+      "source_id": "src-registry-example",
+      "locator": "登记记录",
+      "excerpt": "法定名称与统一登记号 DEMO-001 对应。",
+      "stance": "supports",
+      "evidence_kind": "reported_fact",
+      "observed_at": "2026-07-13",
+      "subject_ids": ["ent-example"],
+      "quality_flags": []
+    },
+    {
+      "id": "evd-example-contract",
+      "source_id": "src-registry-example",
+      "locator": "公开项目记录",
+      "excerpt": "一个公开项目的合同区间为 80 至 120 万元。",
+      "stance": "supports",
+      "evidence_kind": "reported_fact",
+      "observed_at": "2026-07-13",
+      "subject_ids": ["ent-example"],
+      "quality_flags": ["single_project"]
+    }
+  ],
+  "identity_resolution": {
+    "legal_name": "示例技术有限公司",
+    "aliases": ["示例技术"],
+    "identifiers": [
+      {"identifier_type": "registration_number", "value": "DEMO-001"},
+      {"identifier_type": "domain", "value": "example.com"}
+    ],
+    "resolution_status": "partially_resolved",
+    "ambiguities": ["品牌是否由同一主体直接运营仍待验证"],
+    "evidence_ids": ["evd-example-identity"]
+  },
+  "footprint_coverage": [
+    {"dimension":"identity","status":"covered","source_ids":["src-registry-example"],"evidence_ids":["evd-example-identity"],"finding":"法定名称与登记号对应。","gap_reason":null,"next_action":null},
+    {"dimension":"ownership","status":"gap","source_ids":[],"evidence_ids":[],"finding":null,"gap_reason":"虚构样例未提供股东资料。","next_action":"查询登记变更和股权。"},
+    {"dimension":"product","status":"gap","source_ids":[],"evidence_ids":[],"finding":null,"gap_reason":"未取得产品型号或认证。","next_action":"查找规格书、认证和报价。"},
+    {"dimension":"customer","status":"partial","source_ids":["src-registry-example"],"evidence_ids":["evd-example-contract"],"finding":"至少一个公开项目关系。","gap_reason":"没有验收、复购和回款。","next_action":"反查客户验收。"},
+    {"dimension":"supplier","status":"gap","source_ids":[],"evidence_ids":[],"finding":null,"gap_reason":"无供应商原始资料。","next_action":"从认证和项目材料反查。"},
+    {"dimension":"capacity","status":"gap","source_ids":[],"evidence_ids":[],"finding":null,"gap_reason":"无环评、设备或交付能力信息。","next_action":"查询环评、场地和人员。"},
+    {"dimension":"organization","status":"gap","source_ids":[],"evidence_ids":[],"finding":null,"gap_reason":"无人员结构信息。","next_action":"查询招聘和核心团队。"},
+    {"dimension":"technology","status":"gap","source_ids":[],"evidence_ids":[],"finding":null,"gap_reason":"无专利、认证或技术文档。","next_action":"查询专利和认证。"},
+    {"dimension":"channel","status":"not_applicable","source_ids":[],"evidence_ids":[],"finding":"项目制企业暂未发现公开零售渠道。","gap_reason":null,"next_action":null},
+    {"dimension":"judicial","status":"gap","source_ids":[],"evidence_ids":[],"finding":null,"gap_reason":"未完成司法检索。","next_action":"查询裁判与执行。"},
+    {"dimension":"regulatory","status":"partial","source_ids":["src-registry-example"],"evidence_ids":["evd-example-identity"],"finding":"仅有登记记录。","gap_reason":"未查询处罚、许可和合规。","next_action":"查询监管与许可。"}
+  ],
+  "relationship_edges": [
+    {
+      "id": "rel-example-customer",
+      "from_label": "示例技术有限公司",
+      "to_label": "示例公开项目采购方",
+      "relationship_type": "customer_of",
+      "status": "verified",
+      "valid_from": "2026",
+      "valid_to": null,
+      "confidence": "medium",
+      "evidence_ids": ["evd-example-contract"]
+    }
+  ],
+  "proxy_estimates": [
+    {
+      "id": "est-example-revenue",
+      "name": "年度项目收入代理区间",
+      "lower_bound": 80,
+      "base_case": 100,
+      "upper_bound": 120,
+      "unit": "万元",
+      "period": "2026",
+      "formula": "已验证项目数 1 × 单项目合同区间",
+      "assumptions": ["公开项目已实际执行", "未将未公开客户计入"],
+      "input_evidence_ids": ["evd-example-contract"],
+      "cross_checks": ["仅是单项目下界，不代表企业总营收"],
+      "sensitivity": ["项目是否执行和回款"],
+      "confidence": "low"
+    }
+  ],
+  "entities": [
+    {
+      "id": "ent-example",
+      "name": "示例技术有限公司",
+      "entity_type": "private_company",
+      "value_chain_position": ["技术服务"],
+      "power_tier": "unknown",
+      "evidence_coverage": null,
+      "confidence": "low",
+      "summary": "主体部分确认，经营规模只能得到单项目下界。"
+    }
+  ],
+  "products": [],
+  "supply_chain_nodes": [],
+  "metrics": [],
+  "experience_signals": [],
+  "rd_signals": [],
+  "product_markets": [],
+  "customer_segments": [],
+  "competitors": [],
+  "business_model_links": [],
+  "organization_signals": [],
+  "observations": [],
+  "narrative_risks": [],
+  "intelligence_items": [],
+  "claims": [
+    {
+      "id": "clm-example",
+      "statement": "公开材料只能确认至少一个项目关系，不能据此推断企业完整营收",
+      "claim_type": "inference",
+      "confidence": "low",
+      "evidence_ids": ["evd-example-contract"],
+      "counter_evidence_ids": [],
+      "counter_search_status": "not_searched",
+      "scope": "示例公开项目",
+      "implication": "下一步应反查客户验收、其他项目和人员交付能力。",
+      "falsifier": "发现完整审计财务或多个独立客户合同。"
+    }
+  ],
+  "opportunities": [],
+  "limitations": [
+    "这是虚构结构测试，不包含真实企业结论。",
+    "单一公开项目只能作为营收下界，不能估算全部业务。"
+  ]
+}

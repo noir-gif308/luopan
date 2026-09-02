@@ -1,0 +1,272 @@
+{
+  "meta": {
+    "title": "示例制造企业最小研究",
+    "generated_at": "2026-07-12T12:00:00+08:00",
+    "mode": "quick",
+    "research_purpose": "intelligence",
+    "analysis_lenses": ["bottleneck"],
+    "verification_mode": "self_review",
+    "research_status": "partial",
+    "information_regime": "private_visible"
+  },
+  "scope": {
+    "subject": "示例消费硬件企业",
+    "geography": "中国",
+    "timeframe": "2025-2026",
+    "decision_question": "如何验证利润产品、供应链风险和研发转化"
+  },
+  "intake": {
+    "interaction_mode": "defaults_disclosed",
+    "questions_asked": [],
+    "user_answers": [],
+    "assumptions": ["仅用于结构校验，不代表真实企业研究。"],
+    "unresolved_questions": [],
+    "authorized_access": ["公开示例数据"]
+  },
+  "sources": [
+    {
+      "id": "src-filing",
+      "title": "示例企业年度报告",
+      "url": "https://example.com/annual-report",
+      "publisher": "示例企业",
+      "published_at": "2026-04-01",
+      "retrieved_at": "2026-07-12",
+      "authority": "primary",
+      "evidence_type": "filing",
+      "verification": "verified",
+      "excerpt": "核心产品收入占比提升，新产品已进入批量交付。",
+      "content_hash": null,
+      "notes": "仅用于校验脚本的虚构样例，不代表真实企业。"
+    },
+    {
+      "id": "src-ux",
+      "title": "示例产品长期使用样本",
+      "url": "https://example.com/user-sample",
+      "publisher": "示例评测机构",
+      "published_at": "2026-05-01",
+      "retrieved_at": "2026-07-12",
+      "authority": "secondary",
+      "evidence_type": "user_experience",
+      "verification": "verified",
+      "excerpt": "30 天测试中，续航获得肯定，但连接稳定性是重复出现的问题。",
+      "content_hash": null,
+      "notes": "虚构样例。"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evd-filing",
+      "source_id": "src-filing",
+      "locator": "年度报告产品章节",
+      "excerpt": "核心产品收入占比提升，新产品已进入批量交付。",
+      "stance": "supports",
+      "evidence_kind": "reported_fact",
+      "observed_at": "2026-04-01",
+      "subject_ids": ["ent-company", "prd-core"],
+      "quality_flags": ["synthetic_fixture"]
+    },
+    {
+      "id": "evd-ux",
+      "source_id": "src-ux",
+      "locator": "30 天长期测试结论",
+      "excerpt": "30 天测试中，续航获得肯定，但连接稳定性是重复出现的问题。",
+      "stance": "supports",
+      "evidence_kind": "user_report",
+      "observed_at": "2026-05-01",
+      "subject_ids": ["prd-core"],
+      "quality_flags": ["single_sample", "synthetic_fixture"]
+    }
+  ],
+  "source_health": [
+    {
+      "id": "sh-trade-monitor",
+      "source_group": "全球贸易与物流信号",
+      "provider": "示例聚合数据源",
+      "layer": "monitoring",
+      "status": "partial",
+      "observed_at": "2026-07-12T12:00:00+08:00",
+      "last_success_at": "2026-07-12T11:00:00+08:00",
+      "freshness_budget_hours": 24,
+      "coverage": ["国家级贸易与物流"],
+      "missing_coverage": ["企业级供应商与采购量"],
+      "fallback_used": false,
+      "notes": "只能说明外部环境，不能确认企业级供货关系。",
+      "source_ids": ["src-filing"]
+    }
+  ],
+  "entities": [
+    {
+      "id": "ent-company",
+      "name": "示例企业",
+      "entity_type": "manufacturer",
+      "value_chain_position": ["产品设计", "品牌", "渠道"],
+      "power_tier": "competitive",
+      "evidence_coverage": 0.62,
+      "confidence": "medium",
+      "summary": "具备产品定义能力，但关键零部件仍依赖外部供应。"
+    }
+  ],
+  "products": [
+    {
+      "id": "prd-core",
+      "entity_id": "ent-company",
+      "name": "核心硬件产品",
+      "role": "profit_engine",
+      "economic_scope": "核心硬件产品，虚构样例",
+      "profit_measure": "仅有收入角色推断，未取得贡献利润",
+      "scope_contamination": "利润产品标签仍待分产品利润验证",
+      "customer_job": "稳定完成高频家庭任务",
+      "confidence": "medium",
+      "evidence_ids": ["evd-filing"]
+    }
+  ],
+  "supply_chain_nodes": [
+    {
+      "id": "sc-component",
+      "name": "关键控制芯片",
+      "stage": "核心零部件",
+      "product_ids": ["prd-core"],
+      "representative_entities": [],
+      "risk_level": "high",
+      "risk_reason": "认证周期长且替代来源尚未披露。",
+      "evidence_ids": ["evd-filing"]
+    }
+  ],
+  "bottleneck_nodes": [
+    {
+      "id": "bn-component",
+      "supply_chain_node_id": "sc-component",
+      "bottleneck_status": "likely",
+      "supply_concentration": null,
+      "expansion_lead_time_months": null,
+      "substitution_difficulty": "high",
+      "capacity_utilization": null,
+      "demand_growth": null,
+      "qualification_lead_time_months": null,
+      "profit_capture": "unknown",
+      "relief_conditions": ["第二供应商通过认证并量产", "企业安全库存得到验证"],
+      "beneficiary_entity_ids": [],
+      "unknowns": ["供应商集中度", "有效产能利用率", "涨价和毛利率传导"],
+      "confidence": "medium",
+      "evidence_ids": ["evd-filing"]
+    }
+  ],
+  "external_signals": [
+    {
+      "id": "ext-chip-logistics",
+      "domain": "shipping",
+      "signal": "关键控制芯片交付周期存在延长风险",
+      "geography": "亚洲供应链",
+      "as_of": "2026-07-12",
+      "direction": "adverse",
+      "severity": "medium",
+      "status": "inferred",
+      "freshness": "fresh",
+      "provider": "示例聚合数据源",
+      "affected_node_ids": ["sc-component"],
+      "caveats": ["没有企业订单和库存数据"],
+      "evidence_ids": ["evd-filing"]
+    }
+  ],
+  "exposure_links": [
+    {
+      "id": "exp-chip-delay",
+      "entity_id": "ent-company",
+      "product_ids": ["prd-core"],
+      "supply_chain_node_ids": ["sc-component"],
+      "external_signal_ids": ["ext-chip-logistics"],
+      "exposure_type": "logistics",
+      "mechanism": "若认证芯片交期延长且库存不足，核心产品排产和交付可能后移。",
+      "sensitivity": "medium",
+      "time_horizon": "未来 1-2 个补货周期",
+      "mitigants": ["可能存在安全库存或替代采购渠道"],
+      "unknowns": ["库存天数", "第二供应商认证状态"],
+      "evidence_ids": ["evd-filing"]
+    }
+  ],
+  "metrics": [],
+  "experience_signals": [
+    {
+      "id": "ux-stability",
+      "subject_id": "prd-core",
+      "signal": "连接稳定性可能侵蚀长期满意度和售后成本。",
+      "sample_scope": "单一评测机构的 30 天样本，不能推导总体故障率",
+      "confidence": "low",
+      "evidence_ids": ["evd-ux"]
+    }
+  ],
+  "rd_signals": [
+    {
+      "id": "rd-production",
+      "subject_id": "prd-core",
+      "signal": "研发已越过原型阶段并进入批量交付，但客户采用规模未知。",
+      "sample_scope": "公司年度披露",
+      "confidence": "medium",
+      "evidence_ids": ["evd-filing"]
+    }
+  ],
+  "claims": [
+    {
+      "id": "clm-profit",
+      "statement": "核心硬件可能是当前利润产品，但证据尚不足以确认单品利润率",
+      "claim_type": "inference",
+      "confidence": "medium",
+      "evidence_ids": ["evd-filing"],
+      "counter_evidence_ids": [],
+      "scope": "示例企业 2025-2026 产品组合",
+      "implication": "深挖时应优先寻找分产品毛利、渠道折扣和售后成本，而不是用公司整体毛利替代。",
+      "falsifier": "若分产品数据表明该产品贡献利润低于其他产品，应撤销利润产品分类。"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "scn-chip-delay",
+      "name": "关键芯片交期延长",
+      "trigger": "交期连续两个观察周期上升且渠道缺货",
+      "interpretation": "只有企业库存和排产同步恶化时，才升级为企业经营风险。",
+      "watch_items": ["芯片交期", "企业库存", "产品缺货率"],
+      "shock_variables": ["交期", "采购成本"],
+      "transmission_path": ["关键芯片交期", "核心产品排产", "渠道供货", "收入确认"],
+      "impact_dimensions": ["收入", "库存", "客户交付"],
+      "leading_indicators": ["交期报价", "渠道缺货", "替代料认证"],
+      "falsifier": "企业披露并验证已有足够安全库存或双供应商已经量产。",
+      "external_signal_ids": ["ext-chip-logistics"],
+      "evidence_ids": ["evd-filing"]
+    }
+  ],
+  "monitoring_plan": [
+    {
+      "id": "mon-chip-lead-time",
+      "target": "核心产品关键芯片",
+      "indicator": "公开交期与渠道缺货信号",
+      "trigger": "交期连续两次上升，且至少一个渠道出现缺货",
+      "cadence": "每月",
+      "source_group": "全球贸易与物流信号",
+      "baseline": 30,
+      "last_observed": "2026-07-12",
+      "action_if_triggered": "重查企业库存、替代供应商、排产和渠道交付。",
+      "status": "active",
+      "evaluation": {
+        "observation_key": "chip_lead_time_days",
+        "operator": "change_pct_gte",
+        "threshold": 0.2
+      },
+      "evidence_ids": ["evd-filing"]
+    }
+  ],
+  "opportunities": [
+    {
+      "id": "opp-after-sales",
+      "name": "连接稳定性诊断与售后自动化",
+      "status": "watch",
+      "rationale": "存在重复体验信号，但样本不足以证明客户愿意为独立工具付费。",
+      "scores": {"pain_strength": 3, "existing_spend": 2, "customer_access": 2},
+      "evidence_ids": ["ux-stability"],
+      "next_test": "访谈 5 家渠道商或售后服务商，验证该问题的工单占比和处理成本。"
+    }
+  ],
+  "limitations": [
+    "这是虚构的最小结构测试，不包含真实商业结论。",
+    "未获得分产品利润、供应商集中度和售后总体数据。"
+  ]
+}

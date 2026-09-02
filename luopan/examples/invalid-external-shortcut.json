@@ -1,0 +1,81 @@
+{
+  "meta": {
+    "title": "无企业暴露锚点的错误外部风险样例",
+    "generated_at": "2026-07-23T10:00:00+08:00",
+    "mode": "quick",
+    "research_purpose": "intelligence",
+    "verification_mode": "self_review"
+  },
+  "scope": {
+    "subject": "示例企业",
+    "geography": "全球",
+    "timeframe": "当前",
+    "decision_question": "外部风险是否影响企业"
+  },
+  "sources": [
+    {
+      "id": "src-event",
+      "title": "示例航运事件",
+      "url": "https://example.com/event",
+      "retrieved_at": "2026-07-23",
+      "authority": "secondary",
+      "evidence_type": "shipping",
+      "verification": "verified",
+      "excerpt": "示例航线出现延误。"
+    }
+  ],
+  "entities": [
+    {
+      "id": "ent-company",
+      "name": "示例企业",
+      "value_chain_position": ["制造"],
+      "power_tier": "competitive",
+      "confidence": "low"
+    }
+  ],
+  "external_signals": [
+    {
+      "id": "ext-delay",
+      "domain": "shipping",
+      "signal": "示例航线延误",
+      "geography": "全球",
+      "as_of": "2026-07-23",
+      "direction": "adverse",
+      "severity": "high",
+      "status": "observed",
+      "freshness": "fresh",
+      "affected_node_ids": [],
+      "caveats": [],
+      "evidence_ids": ["src-event"]
+    }
+  ],
+  "exposure_links": [
+    {
+      "id": "exp-unanchored",
+      "entity_id": "ent-company",
+      "product_ids": [],
+      "supply_chain_node_ids": [],
+      "external_signal_ids": ["ext-delay"],
+      "exposure_type": "logistics",
+      "mechanism": "假设企业依赖该航线，但没有任何企业级证据。",
+      "sensitivity": "high",
+      "time_horizon": "未知",
+      "mitigants": [],
+      "unknowns": [],
+      "evidence_ids": []
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "scn-shortcut",
+      "name": "错误跳跃情景",
+      "trigger": "航线延误",
+      "interpretation": "直接认为企业受损",
+      "watch_items": ["航线"],
+      "external_signal_ids": ["ext-delay"],
+      "evidence_ids": ["src-event"]
+    }
+  ],
+  "claims": [],
+  "limitations": ["这是应被语义校验拒绝的负例。"]
+}

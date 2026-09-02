@@ -1,0 +1,27 @@
+{
+  "signals": [
+    {
+      "id": "evt-001",
+      "domain": "shipping",
+      "title": "Synthetic route delay increased",
+      "description": "Median transit time changed from 30 to 36 days in the synthetic sample.",
+      "geography": "Synthetic corridor",
+      "as_of": "2026-07-20",
+      "direction": "adverse",
+      "severity": "medium",
+      "status": "observed",
+      "source_title": "Synthetic Port Bulletin",
+      "source_url": "https://example.com/synthetic-port-bulletin"
+    },
+    {
+      "id": "evt-002",
+      "domain": "commodity",
+      "signal": "Synthetic input price index rose 8%",
+      "geography": "Synthetic market",
+      "date": "2026-07-21",
+      "direction": "adverse",
+      "severity": "low",
+      "status": "observed"
+    }
+  ]
+}

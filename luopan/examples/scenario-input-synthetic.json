@@ -1,0 +1,13 @@
+{
+  "scenario_id": "scn-synthetic-shipping",
+  "evidence_ids": ["evd-company"],
+  "assumptions": [
+    {
+      "metric": "Synthetic logistics cost",
+      "baseline": 100,
+      "shock": {"lower": 0.05, "base": 0.1, "upper": 0.2},
+      "unit": "index",
+      "direction": "relative"
+    }
+  ]
+}

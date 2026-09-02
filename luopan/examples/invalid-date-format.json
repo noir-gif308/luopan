@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "title": "Invalid date format fixture",
+    "generated_at": "not-a-date",
+    "mode": "quick",
+    "research_purpose": "intelligence",
+    "verification_mode": "self_review",
+    "research_status": "partial",
+    "information_regime": "unknown"
+  },
+  "scope": {
+    "subject": "Synthetic subject",
+    "geography": "Synthetic market",
+    "timeframe": "Synthetic period",
+    "decision_question": "Test date-time format checking"
+  },
+  "sources": [
+    {
+      "id": "src-synthetic",
+      "title": "Synthetic source",
+      "url": "https://example.com/synthetic",
+      "retrieved_at": "2026-07-24",
+      "authority": "secondary",
+      "evidence_type": "research",
+      "verification": "unverified"
+    }
+  ],
+  "entities": [
+    {
+      "id": "ent-synthetic",
+      "name": "Synthetic entity",
+      "value_chain_position": [],
+      "power_tier": "unknown",
+      "confidence": "low"
+    }
+  ],
+  "claims": [],
+  "limitations": ["Negative fixture"]
+}

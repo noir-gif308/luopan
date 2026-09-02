@@ -1,0 +1,5 @@
+# Luopan's dedicated validation and rendering runtime.
+# Keep this environment outside the skill directory; do not install into Codex's bundled Python.
+PyYAML==6.0.3
+jsonschema[format]==4.26.0
+Markdown==3.10.2

@@ -1,0 +1,1052 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Luopan Research",
+  "type": "object",
+  "required": ["meta", "scope", "sources", "entities", "claims", "limitations"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["title", "generated_at", "mode", "research_purpose", "analysis_lenses", "verification_mode", "research_status", "information_regime"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1},
+        "generated_at": {"type": "string", "format": "date-time"},
+        "mode": {"enum": ["quick", "standard", "deep"]},
+        "research_purpose": {"enum": ["intelligence", "investment", "both"]},
+        "analysis_lenses": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"enum": ["earnings_delta", "thesis_drift", "management", "income", "bottleneck", "decision_audit"]}
+        },
+        "verification_mode": {"enum": ["independent", "self_review", "none"]},
+        "research_status": {"enum": ["complete", "partial", "blocked"]},
+        "information_regime": {"enum": ["listed", "private_visible", "private_sparse", "unknown"]}
+      },
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "required": ["subject", "geography", "timeframe", "decision_question"],
+      "properties": {
+        "subject": {"type": "string", "minLength": 1},
+        "geography": {"type": "string", "minLength": 1},
+        "timeframe": {"type": "string", "minLength": 1},
+        "decision_question": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "intake": {
+      "type": "object",
+      "required": ["interaction_mode", "assumptions", "unresolved_questions"],
+      "properties": {
+        "interaction_mode": {"enum": ["user_answered", "defaults_disclosed", "mixed"]},
+        "questions_asked": {"type": "array", "items": {"type": "string"}},
+        "user_answers": {"type": "array", "items": {"type": "string"}},
+        "assumptions": {"type": "array", "items": {"type": "string"}},
+        "unresolved_questions": {"type": "array", "items": {"type": "string"}},
+        "authorized_access": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "url", "authority", "evidence_type", "verification", "retrieved_at"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^src-"},
+          "title": {"type": "string"},
+          "url": {"type": "string"},
+          "publisher": {"type": "string"},
+          "published_at": {
+            "anyOf": [
+              {"type": "null"},
+              {"type": "string", "format": "date"},
+              {"type": "string", "format": "date-time"}
+            ]
+          },
+          "retrieved_at": {
+            "anyOf": [
+              {"type": "string", "format": "date"},
+              {"type": "string", "format": "date-time"}
+            ]
+          },
+          "authority": {"enum": ["primary", "secondary", "tertiary"]},
+          "evidence_type": {"enum": ["filing", "government", "product_document", "certification", "patent", "transaction", "research", "media", "user_experience", "estimate", "customer", "channel", "supplier", "employee", "job_posting", "tender", "traffic", "pricing", "inventory", "litigation", "rumor", "trade_flow", "shipping", "commodity", "sanctions", "infrastructure", "market_data", "event_data"]},
+          "source_perspective": {"enum": ["company", "regulator", "competitor", "customer", "channel", "supplier", "employee", "investor", "media", "anonymous", "behavioral_data"]},
+          "incentive_bias": {"type": "string"},
+          "verification": {"enum": ["verified", "corroborated", "unverified", "discovery_only"]},
+          "excerpt": {
+            "anyOf": [
+              {"type": "null"},
+              {"type": "string", "pattern": "\\S"}
+            ]
+          },
+          "content_hash": {
+            "anyOf": [
+              {"type": "null"},
+              {"type": "string", "pattern": "^[A-Fa-f0-9]{64}$"}
+            ]
+          },
+          "notes": {"type": ["string", "null"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "default": [],
+      "items": {"$ref": "#/$defs/evidence"}
+    },
+    "source_coverage": {
+      "type": "array",
+      "default": [],
+      "items": {"$ref": "#/$defs/sourceCoverage"}
+    },
+    "source_health": {"type": "array", "default": [], "items": {"$ref": "#/$defs/sourceHealth"}},
+    "discarded_sources": {
+      "type": "array",
+      "default": [],
+      "items": {"$ref": "#/$defs/discardedSource"}
+    },
+    "identity_resolution": {"$ref": "#/$defs/identityResolution"},
+    "footprint_coverage": {"type": "array", "default": [], "items": {"$ref": "#/$defs/footprintCoverage"}},
+    "relationship_edges": {"type": "array", "default": [], "items": {"$ref": "#/$defs/relationshipEdge"}},
+    "proxy_estimates": {"type": "array", "default": [], "items": {"$ref": "#/$defs/proxyEstimate"}},
+    "investment_context": {"$ref": "#/$defs/investmentContext"},
+    "investment_theses": {"type": "array", "default": [], "items": {"$ref": "#/$defs/investmentThesis"}},
+    "valuation_scenarios": {"type": "array", "default": [], "items": {"$ref": "#/$defs/valuationScenario"}},
+    "investment_conclusion": {"$ref": "#/$defs/investmentConclusion"},
+    "period_reviews": {"type": "array", "default": [], "items": {"$ref": "#/$defs/periodReview"}},
+    "management_commitments": {"type": "array", "default": [], "items": {"$ref": "#/$defs/managementCommitment"}},
+    "capital_allocation_events": {"type": "array", "default": [], "items": {"$ref": "#/$defs/capitalAllocationEvent"}},
+    "thesis_changes": {"type": "array", "default": [], "items": {"$ref": "#/$defs/thesisChange"}},
+    "income_analysis": {"$ref": "#/$defs/incomeAnalysis"},
+    "bottleneck_nodes": {"type": "array", "default": [], "items": {"$ref": "#/$defs/bottleneckNode"}},
+    "decision_audit": {"$ref": "#/$defs/decisionAudit"},
+    "entities": {"type": "array", "items": {"$ref": "#/$defs/entity"}},
+    "products": {"type": "array", "default": [], "items": {"$ref": "#/$defs/product"}},
+    "supply_chain_nodes": {"type": "array", "default": [], "items": {"$ref": "#/$defs/supplyNode"}},
+    "external_signals": {"type": "array", "default": [], "items": {"$ref": "#/$defs/externalSignal"}},
+    "exposure_links": {"type": "array", "default": [], "items": {"$ref": "#/$defs/exposureLink"}},
+    "metrics": {"type": "array", "default": [], "items": {"$ref": "#/$defs/metric"}},
+    "experience_signals": {"type": "array", "default": [], "items": {"$ref": "#/$defs/signal"}},
+    "rd_signals": {"type": "array", "default": [], "items": {"$ref": "#/$defs/signal"}},
+    "product_markets": {"type": "array", "default": [], "items": {"$ref": "#/$defs/productMarket"}},
+    "customer_segments": {"type": "array", "default": [], "items": {"$ref": "#/$defs/customerSegment"}},
+    "competitors": {"type": "array", "default": [], "items": {"$ref": "#/$defs/competitor"}},
+    "business_model_links": {"type": "array", "default": [], "items": {"$ref": "#/$defs/businessLink"}},
+    "organization_signals": {"type": "array", "default": [], "items": {"$ref": "#/$defs/organizationSignal"}},
+    "observations": {"type": "array", "default": [], "items": {"$ref": "#/$defs/observation"}},
+    "narrative_risks": {"type": "array", "default": [], "items": {"$ref": "#/$defs/narrativeRisk"}},
+    "intelligence_items": {"type": "array", "default": [], "items": {"$ref": "#/$defs/intelligenceItem"}},
+    "key_unknowns": {"type": "array", "default": [], "items": {"type": "string"}},
+    "scenarios": {"type": "array", "default": [], "items": {"$ref": "#/$defs/scenario"}},
+    "monitoring_plan": {"type": "array", "default": [], "items": {"$ref": "#/$defs/monitoringItem"}},
+    "scenario_results": {"type": "array", "default": [], "items": {"$ref": "#/$defs/scenarioResult"}},
+    "claims": {"type": "array", "items": {"$ref": "#/$defs/claim"}},
+    "opportunities": {"type": "array", "default": [], "items": {"$ref": "#/$defs/opportunity"}},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+  },
+  "$defs": {
+    "sourceHealth": {
+      "type": "object",
+      "required": ["id", "source_group", "provider", "layer", "status", "observed_at", "freshness_budget_hours", "fallback_used", "source_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^sh-"},
+        "source_group": {"type": "string"},
+        "provider": {"type": "string"},
+        "layer": {"enum": ["discovery", "collection", "vertical", "monitoring"]},
+        "status": {"enum": ["available", "partial", "stale", "unavailable", "not_configured", "unknown"]},
+        "observed_at": {"type": "string", "format": "date-time"},
+        "last_success_at": {"type": ["string", "null"]},
+        "freshness_budget_hours": {"type": "number", "minimum": 0},
+        "coverage": {"type": "array", "items": {"type": "string"}},
+        "missing_coverage": {"type": "array", "items": {"type": "string"}},
+        "fallback_used": {"type": "boolean"},
+        "notes": {"type": ["string", "null"]},
+        "source_ids": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "externalSignal": {
+      "type": "object",
+      "required": ["id", "domain", "signal", "geography", "as_of", "direction", "severity", "status", "freshness", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^ext-"},
+        "domain": {"enum": ["geopolitics", "trade", "shipping", "energy", "commodity", "sanctions", "infrastructure", "climate", "cyber", "procurement", "policy", "macro", "other"]},
+        "signal": {"type": "string"},
+        "geography": {"type": "string"},
+        "as_of": {
+          "anyOf": [
+            {"type": "string", "format": "date"},
+            {"type": "string", "format": "date-time"}
+          ]
+        },
+        "direction": {"enum": ["adverse", "favorable", "mixed", "neutral", "unknown"]},
+        "severity": {"enum": ["critical", "high", "medium", "low", "unknown"]},
+        "status": {"enum": ["observed", "inferred", "forecast"]},
+        "freshness": {"enum": ["fresh", "stale", "unknown"]},
+        "provider": {"type": ["string", "null"]},
+        "affected_node_ids": {"type": "array", "items": {"type": "string"}},
+        "caveats": {"type": "array", "items": {"type": "string"}},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "exposureLink": {
+      "type": "object",
+      "required": ["id", "entity_id", "external_signal_ids", "exposure_type", "mechanism", "sensitivity", "time_horizon", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^exp-"},
+        "entity_id": {"type": "string"},
+        "product_ids": {"type": "array", "items": {"type": "string"}},
+        "supply_chain_node_ids": {"type": "array", "items": {"type": "string"}},
+        "external_signal_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "exposure_type": {"enum": ["input_cost", "demand", "logistics", "regulatory", "geographic", "customer", "supplier", "financing", "infrastructure", "other"]},
+        "mechanism": {"type": "string"},
+        "sensitivity": {"enum": ["high", "medium", "low", "unknown"]},
+        "time_horizon": {"type": "string"},
+        "mitigants": {"type": "array", "items": {"type": "string"}},
+        "unknowns": {"type": "array", "items": {"type": "string"}},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "monitoringItem": {
+      "type": "object",
+      "required": ["id", "target", "indicator", "trigger", "cadence", "source_group", "action_if_triggered", "status"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^mon-"},
+        "target": {"type": "string"},
+        "indicator": {"type": "string"},
+        "trigger": {"type": "string"},
+        "cadence": {"type": "string"},
+        "source_group": {"type": "string"},
+        "baseline": {"type": ["string", "number", "null"]},
+        "last_observed": {"type": ["string", "number", "null"]},
+        "action_if_triggered": {"type": "string"},
+        "status": {"enum": ["active", "watch", "paused", "blocked"]},
+        "evaluation": {
+          "type": "object",
+          "required": ["observation_key", "operator", "threshold"],
+          "properties": {
+            "observation_key": {"type": "string"},
+            "operator": {"enum": ["gt", "gte", "lt", "lte", "eq", "change_pct_gte", "change_pct_lte"]},
+            "threshold": {"type": "number"}
+          },
+          "additionalProperties": false
+        },
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "scenarioResult": {
+      "type": "object",
+      "required": ["id", "scenario_id", "metric", "baseline", "lower_bound", "base_case", "upper_bound", "unit", "formula", "assumptions", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^sres-"},
+        "scenario_id": {"type": "string", "pattern": "^scn-"},
+        "metric": {"type": "string"},
+        "baseline": {"type": "number"},
+        "lower_bound": {"type": "number"},
+        "base_case": {"type": "number"},
+        "upper_bound": {"type": "number"},
+        "unit": {"type": "string"},
+        "formula": {"type": "string"},
+        "assumptions": {"type": "array", "items": {"type": "string"}},
+        "shock_assumption": {
+          "type": "object",
+          "required": ["lower", "base", "upper"],
+          "properties": {
+            "lower": {"type": "number"},
+            "base": {"type": "number"},
+            "upper": {"type": "number"}
+          },
+          "additionalProperties": false
+        },
+        "direction": {"enum": ["relative", "absolute"]},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "identityResolution": {
+      "type": "object",
+      "required": ["legal_name", "aliases", "identifiers", "resolution_status", "evidence_ids"],
+      "properties": {
+        "legal_name": {"type": "string"},
+        "aliases": {"type": "array", "items": {"type": "string"}},
+        "identifiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["identifier_type", "value"],
+            "properties": {
+              "identifier_type": {"enum": ["registration_number", "tax_id", "domain", "icp", "phone", "email_domain", "address", "patent_applicant", "certification_number", "product_model", "other"]},
+              "value": {"type": "string"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "resolution_status": {"enum": ["resolved", "partially_resolved", "ambiguous"]},
+        "ambiguities": {"type": "array", "items": {"type": "string"}},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "footprintCoverage": {
+      "type": "object",
+      "required": ["dimension", "status", "source_ids", "evidence_ids"],
+      "properties": {
+        "dimension": {"enum": ["identity", "ownership", "product", "customer", "supplier", "capacity", "organization", "technology", "channel", "judicial", "regulatory"]},
+        "status": {"enum": ["covered", "partial", "gap", "not_applicable"]},
+        "source_ids": {"type": "array", "items": {"type": "string"}},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "finding": {"type": ["string", "null"]},
+        "gap_reason": {"type": ["string", "null"]},
+        "next_action": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "relationshipEdge": {
+      "type": "object",
+      "required": ["id", "from_label", "to_label", "relationship_type", "status", "confidence", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^rel-"},
+        "from_label": {"type": "string"},
+        "to_label": {"type": "string"},
+        "relationship_type": {"enum": ["owns", "controlled_by", "invested_by", "supplies", "customer_of", "distributes", "licenses", "shares_address", "shares_contact", "talent_flow", "alleged_relation", "other"]},
+        "status": {"enum": ["verified", "inferred", "alleged"]},
+        "valid_from": {"type": ["string", "null"]},
+        "valid_to": {"type": ["string", "null"]},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "proxyEstimate": {
+      "type": "object",
+      "required": ["id", "name", "lower_bound", "base_case", "upper_bound", "unit", "period", "formula", "assumptions", "input_evidence_ids", "confidence"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^est-"},
+        "name": {"type": "string"},
+        "lower_bound": {"type": "number"},
+        "base_case": {"type": "number"},
+        "upper_bound": {"type": "number"},
+        "unit": {"type": "string"},
+        "period": {"type": "string"},
+        "formula": {"type": "string"},
+        "assumptions": {"type": "array", "items": {"type": "string"}},
+        "input_evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "cross_checks": {"type": "array", "items": {"type": "string"}},
+        "sensitivity": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"enum": ["medium", "low"]}
+      },
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["id", "source_id", "locator", "excerpt", "stance", "evidence_kind", "observed_at"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^evd-"},
+        "source_id": {"type": "string"},
+        "locator": {"type": "string", "pattern": "\\S"},
+        "excerpt": {"type": "string", "pattern": "\\S"},
+        "stance": {"enum": ["supports", "contradicts", "context"]},
+        "evidence_kind": {"enum": ["reported_fact", "observed_behavior", "user_report", "expert_interpretation", "estimate", "rumor"]},
+        "observed_at": {
+          "anyOf": [
+            {"type": "string", "format": "date"},
+            {"type": "string", "format": "date-time"}
+          ]
+        },
+        "subject_ids": {"type": "array", "items": {"type": "string"}},
+        "quality_flags": {"type": "array", "items": {"type": "string"}},
+        "notes": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "sourceCoverage": {
+      "type": "object",
+      "required": ["perspective", "status", "source_ids"],
+      "properties": {
+        "perspective": {"enum": ["company", "regulator", "competitor", "customer", "channel", "supplier", "employee", "investor", "media", "anonymous", "behavioral_data"]},
+        "status": {"enum": ["covered", "gap", "not_applicable"]},
+        "source_ids": {"type": "array", "items": {"type": "string"}},
+        "gap_reason": {"type": ["string", "null"]},
+        "next_search": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "discardedSource": {
+      "type": "object",
+      "required": ["title", "url", "decision", "reason"],
+      "properties": {
+        "title": {"type": "string"},
+        "url": {"type": "string"},
+        "decision": {"enum": ["discard", "duplicate", "downgrade_to_intelligence"]},
+        "reason": {"type": "string"},
+        "duplicate_of": {"type": ["string", "null"]},
+        "intelligence_id": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "entity": {
+      "type": "object",
+      "required": ["id", "name", "value_chain_position", "power_tier", "confidence"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^ent-"},
+        "name": {"type": "string"},
+        "entity_type": {"type": "string"},
+        "value_chain_position": {"type": "array", "items": {"type": "string"}},
+        "power_tier": {"enum": ["dominant", "advantaged", "competitive", "dependent", "unknown"]},
+        "evidence_coverage": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "summary": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "product": {
+      "type": "object",
+      "required": ["id", "entity_id", "name", "role", "confidence"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^prd-"},
+        "entity_id": {"type": "string"},
+        "name": {"type": "string"},
+        "role": {"enum": ["profit_engine", "scale_engine", "traffic_entry", "strategic_bet", "declining", "unknown"]},
+        "secondary_roles": {"type": "array", "items": {"enum": ["profit_engine", "scale_engine", "traffic_entry", "strategic_bet", "declining"]}},
+        "role_as_of": {"type": "string"},
+        "role_rationale": {"type": "string"},
+        "economic_scope": {"type": ["string", "null"]},
+        "profit_measure": {"type": ["string", "null"]},
+        "scope_contamination": {"type": ["string", "null"]},
+        "customer_job": {"type": "string"},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "supplyNode": {
+      "type": "object",
+      "required": ["id", "name", "stage", "risk_level"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^sc-"},
+        "name": {"type": "string"},
+        "stage": {"type": "string"},
+        "product_ids": {"type": "array", "items": {"type": "string"}},
+        "representative_entities": {"type": "array", "items": {"type": "string"}},
+        "risk_level": {"enum": ["high", "medium", "low", "unknown"]},
+        "risk_reason": {"type": "string"},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "metric": {
+      "type": "object",
+      "required": ["id", "name", "value", "unit", "period", "scope", "metric_type", "source_ids", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^met-"},
+        "name": {"type": "string"},
+        "value": {"type": ["number", "string"]},
+        "unit": {"type": "string"},
+        "period": {"type": "string"},
+        "scope": {"type": "string"},
+        "metric_type": {"enum": ["actual", "estimate", "forecast", "proxy"]},
+        "source_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"metric_type": {"enum": ["actual", "proxy"]}}},
+          "then": {"properties": {"value": {"type": "number"}}}
+        }
+      ],
+      "additionalProperties": false
+    },
+    "signal": {
+      "type": "object",
+      "required": ["id", "subject_id", "signal", "confidence", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string"},
+        "subject_id": {"type": "string"},
+        "signal": {"type": "string"},
+        "sample_scope": {"type": "string"},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "claim": {
+      "type": "object",
+      "required": ["id", "statement", "claim_type", "confidence", "evidence_ids", "implication"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^clm-"},
+        "statement": {"type": "string"},
+        "claim_type": {"enum": ["fact", "inference", "forecast"]},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "counter_evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "counter_search_status": {"enum": ["searched_found", "searched_none", "not_searched"]},
+        "no_counter_evidence_reason": {"type": "string"},
+        "comparison_set": {"type": "array", "items": {"type": "string"}},
+        "confidence_reason": {"type": "string"},
+        "claim_components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["statement", "confidence", "evidence_ids"],
+            "properties": {
+              "statement": {"type": "string"},
+              "confidence": {"enum": ["high", "medium", "low"]},
+              "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+              "unknown": {"type": ["string", "null"]}
+            },
+            "additionalProperties": false
+          }
+        },
+        "scope": {"type": "string"},
+        "implication": {"type": "string"},
+        "falsifier": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "opportunity": {
+      "type": "object",
+      "required": ["id", "name", "status", "rationale", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^opp-"},
+        "name": {"type": "string"},
+        "status": {"enum": ["act_now", "watch", "avoid_now"]},
+        "rationale": {"type": "string"},
+        "scores": {"type": "object", "additionalProperties": {"type": "number", "minimum": 1, "maximum": 5}},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "next_test": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "periodReview": {
+      "type": "object",
+      "required": ["id", "current_period", "comparison_period", "as_of", "metric_deltas", "accounting_signals", "commitment_ids", "overall_effect", "summary", "confidence", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^per-"},
+        "current_period": {"type": "string", "minLength": 1},
+        "comparison_period": {"type": "string", "minLength": 1},
+        "as_of": {"type": "string", "format": "date"},
+        "metric_deltas": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["metric", "current_value", "comparison_value", "unit", "current_evidence_ids", "comparison_evidence_ids", "interpretation"],
+            "properties": {
+              "metric": {"type": "string", "minLength": 1},
+              "current_value": {"type": "number"},
+              "comparison_value": {"type": "number"},
+              "unit": {"type": "string", "minLength": 1},
+              "current_evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+              "comparison_evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+              "interpretation": {"type": "string", "minLength": 1}
+            },
+            "additionalProperties": false
+          }
+        },
+        "accounting_signals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["description", "status", "impact", "evidence_ids"],
+            "properties": {
+              "description": {"type": "string", "minLength": 1},
+              "status": {"enum": ["changed", "unchanged", "unknown"]},
+              "impact": {"type": "string", "minLength": 1},
+              "evidence_ids": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": false
+          }
+        },
+        "commitment_ids": {"type": "array", "items": {"type": "string", "pattern": "^mcom-"}},
+        "overall_effect": {"enum": ["strengthens", "neutral", "weakens", "mixed", "indeterminate"]},
+        "summary": {"type": "string", "minLength": 1},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "managementCommitment": {
+      "type": "object",
+      "required": ["id", "commitment_type", "statement", "made_at", "due_at", "status", "original_evidence_ids", "outcome_evidence_ids", "assessment", "confidence"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^mcom-"},
+        "commitment_type": {"enum": ["guidance", "capital_allocation", "product", "operations", "governance", "other"]},
+        "statement": {"type": "string", "minLength": 1},
+        "made_at": {"type": "string", "format": "date"},
+        "due_at": {"type": ["string", "null"], "format": "date"},
+        "status": {"enum": ["pending", "met", "partially_met", "missed", "withdrawn", "unclear"]},
+        "original_evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "outcome_evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "assessment": {"type": "string", "minLength": 1},
+        "confidence": {"enum": ["high", "medium", "low"]}
+      },
+      "additionalProperties": false
+    },
+    "capitalAllocationEvent": {
+      "type": "object",
+      "required": ["id", "event_type", "announced_at", "amount", "currency", "rationale", "status", "outcome", "assessment", "confidence", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^cap-"},
+        "event_type": {"enum": ["acquisition", "divestiture", "buyback", "dividend", "capex", "debt", "equity_issuance", "new_business", "other"]},
+        "announced_at": {"type": "string", "format": "date"},
+        "amount": {"type": ["number", "null"], "minimum": 0},
+        "currency": {"type": ["string", "null"]},
+        "rationale": {"type": "string", "minLength": 1},
+        "status": {"enum": ["announced", "executing", "completed", "impaired", "abandoned", "unknown"]},
+        "outcome": {"type": "string", "minLength": 1},
+        "assessment": {"type": "string", "minLength": 1},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "thesisChange": {
+      "type": "object",
+      "required": ["id", "thesis_id", "baseline_as_of", "current_as_of", "change_type", "previous_status", "current_status", "direction", "trigger_evidence_ids", "explanation", "action_impact", "confidence"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^td-"},
+        "thesis_id": {"type": "string", "pattern": "^invth-"},
+        "baseline_as_of": {"type": "string", "format": "date"},
+        "current_as_of": {"type": "string", "format": "date"},
+        "change_type": {"enum": ["fundamental", "valuation", "evidence", "wording_only"]},
+        "previous_status": {"enum": ["supported", "mixed", "weakened", "falsified", "unknown"]},
+        "current_status": {"enum": ["supported", "mixed", "weakened", "falsified", "unknown"]},
+        "direction": {"enum": ["improved", "unchanged", "weakened", "broken", "indeterminate"]},
+        "trigger_evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "explanation": {"type": "string", "minLength": 1},
+        "action_impact": {"type": "string", "minLength": 1},
+        "confidence": {"enum": ["high", "medium", "low"]}
+      },
+      "additionalProperties": false
+    },
+    "incomeAnalysis": {
+      "type": "object",
+      "required": ["classification", "evidence_quality", "distribution_profile", "coverage_metrics", "debt_refinancing_assessment", "scenarios", "blocking_gates", "tax_assumptions", "portfolio_fit", "conclusion", "confidence"],
+      "properties": {
+        "classification": {"enum": ["durable_income", "opportunistic_income", "yield_trap", "unsuitable", "insufficient_data"]},
+        "evidence_quality": {"enum": ["A", "B", "C"]},
+        "distribution_profile": {
+          "type": "object",
+          "required": ["distribution_type", "frequency", "currency", "history_years", "evidence_ids"],
+          "properties": {
+            "distribution_type": {"enum": ["ordinary", "special", "variable", "mixed", "none"]},
+            "frequency": {"type": "string", "minLength": 1},
+            "currency": {"type": "string", "minLength": 1},
+            "history_years": {"type": "number", "minimum": 0},
+            "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+          },
+          "additionalProperties": false
+        },
+        "coverage_metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["metric", "period", "value", "unit", "evidence_ids"],
+            "properties": {
+              "metric": {"type": "string", "minLength": 1},
+              "period": {"type": "string", "minLength": 1},
+              "value": {"type": "number"},
+              "unit": {"type": "string", "minLength": 1},
+              "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+            },
+            "additionalProperties": false
+          }
+        },
+        "debt_refinancing_assessment": {"type": "string", "minLength": 1},
+        "scenarios": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["case", "assumptions", "calculation", "distributable_cash", "payout_coverage", "debt_effect", "distribution_outcome", "valuation_effect", "evidence_ids"],
+            "properties": {
+              "case": {"enum": ["base", "adverse", "severe"]},
+              "assumptions": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+              "calculation": {
+                "type": "object",
+                "required": ["cash_components", "distribution_amount", "formula"],
+                "properties": {
+                  "cash_components": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "required": ["name", "value"],
+                      "properties": {
+                        "name": {"type": "string", "minLength": 1},
+                        "value": {"type": "number"}
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "distribution_amount": {"type": "number", "exclusiveMinimum": 0},
+                  "formula": {"const": "distributable_cash = sum(cash_components); payout_coverage = distributable_cash / distribution_amount"}
+                },
+                "additionalProperties": false
+              },
+              "distributable_cash": {"type": ["number", "null"]},
+              "payout_coverage": {"type": ["number", "null"]},
+              "debt_effect": {"type": "string", "minLength": 1},
+              "distribution_outcome": {"type": "string", "minLength": 1},
+              "valuation_effect": {"type": "string", "minLength": 1},
+              "evidence_ids": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": false
+          }
+        },
+        "blocking_gates": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["gate", "status", "explanation", "evidence_ids"],
+            "properties": {
+              "gate": {"enum": ["coverage", "debt_refinancing", "structural_deterioration", "governance_integrity", "evidence_sufficiency"]},
+              "status": {"enum": ["pass", "fail", "unknown"]},
+              "explanation": {"type": "string", "minLength": 1},
+              "evidence_ids": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": false
+          }
+        },
+        "tax_assumptions": {"type": "array", "items": {"type": "string"}},
+        "portfolio_fit": {"type": "string", "minLength": 1},
+        "conclusion": {"type": "string", "minLength": 1},
+        "confidence": {"enum": ["high", "medium", "low"]}
+      },
+      "additionalProperties": false
+    },
+    "bottleneckNode": {
+      "type": "object",
+      "required": ["id", "supply_chain_node_id", "bottleneck_status", "supply_concentration", "expansion_lead_time_months", "substitution_difficulty", "capacity_utilization", "demand_growth", "qualification_lead_time_months", "profit_capture", "relief_conditions", "beneficiary_entity_ids", "unknowns", "confidence", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^bn-"},
+        "supply_chain_node_id": {"type": "string", "pattern": "^sc-"},
+        "bottleneck_status": {"enum": ["confirmed", "likely", "weak_signal", "not_bottleneck", "unknown"]},
+        "supply_concentration": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "expansion_lead_time_months": {"type": ["number", "null"], "minimum": 0},
+        "substitution_difficulty": {"enum": ["high", "medium", "low", "unknown"]},
+        "capacity_utilization": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "demand_growth": {"type": ["number", "null"]},
+        "qualification_lead_time_months": {"type": ["number", "null"], "minimum": 0},
+        "profit_capture": {"enum": ["strong", "partial", "none", "unknown"]},
+        "relief_conditions": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "beneficiary_entity_ids": {"type": "array", "items": {"type": "string"}},
+        "unknowns": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "investmentContext": {
+      "type": "object",
+      "required": ["asset_type", "instrument_name", "valuation_as_of", "holding_period_years", "currency", "position_status", "access_path", "reference_value_type", "reference_value", "reference_value_evidence_ids", "capital_structure_status", "capital_structure_evidence_ids", "freshness"],
+      "properties": {
+        "asset_type": {"enum": ["listed_equity", "private_equity", "debt", "other"]},
+        "instrument_name": {"type": "string", "minLength": 1},
+        "ticker": {"type": ["string", "null"]},
+        "exchange": {"type": ["string", "null"]},
+        "valuation_as_of": {"type": "string", "format": "date"},
+        "holding_period_years": {"type": "number", "exclusiveMinimum": 0},
+        "currency": {"type": "string", "minLength": 1},
+        "position_status": {"enum": ["not_held", "held", "unknown"]},
+        "cost_basis": {"type": ["number", "null"], "minimum": 0},
+        "required_return": {"type": ["number", "null"]},
+        "max_loss": {"type": ["number", "null"]},
+        "access_path": {"enum": ["public_market", "private_round", "secondary_market", "employee_equity", "debt_market", "none", "unknown"]},
+        "reference_value_type": {"enum": ["price_per_share", "equity_value", "enterprise_value", "financing_valuation", "unknown"]},
+        "reference_value": {"type": ["number", "null"], "minimum": 0},
+        "reference_value_evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "capital_structure_status": {"enum": ["verified", "partial", "unknown"]},
+        "capital_structure_evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "freshness": {"enum": ["fresh", "stale", "unknown"]}
+      },
+      "additionalProperties": false
+    },
+    "investmentThesis": {
+      "type": "object",
+      "required": ["id", "thesis_type", "statement", "status", "confidence", "evidence_ids", "counter_evidence_ids", "counter_search_status", "falsifiers", "monitoring_indicators", "review_cadence"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^invth-"},
+        "thesis_type": {"enum": ["business", "valuation", "management", "balance_sheet", "catalyst", "risk"]},
+        "statement": {"type": "string", "minLength": 1},
+        "status": {"enum": ["supported", "mixed", "weakened", "falsified", "unknown"]},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "counter_evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "counter_search_status": {"enum": ["searched_found", "searched_none", "not_searched"]},
+        "counter_search_notes": {"type": ["string", "null"]},
+        "falsifiers": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "monitoring_indicators": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "review_cadence": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "valuationScenario": {
+      "type": "object",
+      "required": ["id", "case", "method", "valuation_as_of", "horizon_years", "value_type", "target_value", "currency", "formula", "assumptions", "evidence_ids", "expected_total_return", "expected_annual_return", "confidence", "falsifier"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^val-"},
+        "case": {"enum": ["downside", "base", "upside"]},
+        "method": {"type": "string", "minLength": 1},
+        "valuation_as_of": {"type": "string", "format": "date"},
+        "horizon_years": {"type": "number", "exclusiveMinimum": 0},
+        "value_type": {"enum": ["price_per_share", "equity_value", "enterprise_value", "financing_valuation"]},
+        "target_value": {"type": "number", "minimum": 0},
+        "currency": {"type": "string", "minLength": 1},
+        "formula": {"type": "string", "minLength": 1},
+        "assumptions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["name", "value", "basis", "rationale", "evidence_ids"],
+            "properties": {
+              "name": {"type": "string", "minLength": 1},
+              "value": {"type": ["number", "string"]},
+              "unit": {"type": ["string", "null"]},
+              "basis": {"enum": ["evidence", "user_input", "model_judgment"]},
+              "rationale": {"type": "string", "minLength": 1},
+              "evidence_ids": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": false
+          }
+        },
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "expected_total_return": {"type": ["number", "null"]},
+        "expected_annual_return": {"type": ["number", "null"]},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "falsifier": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "investmentConclusion": {
+      "type": "object",
+      "required": ["stance", "rationale", "price_condition", "horizon", "anchor_scenario_id", "confidence", "invalidators", "evidence_ids"],
+      "properties": {
+        "stance": {"enum": ["consider_entry", "watch", "hold", "reduce", "exit", "avoid", "indeterminate"]},
+        "rationale": {"type": "string", "minLength": 1},
+        "price_condition": {"type": "string", "minLength": 1},
+        "horizon": {"type": "string", "minLength": 1},
+        "anchor_scenario_id": {"type": "string", "pattern": "^val-"},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "invalidators": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "decisionAudit": {
+      "type": "object",
+      "required": ["stage", "overall_status", "gates", "behavioral_flags", "opportunity_cost", "conditions", "summary", "confidence"],
+      "properties": {
+        "stage": {"enum": ["initial_entry", "add_position", "review_only"]},
+        "overall_status": {"enum": ["ready", "conditional", "blocked", "insufficient"]},
+        "gates": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "required": ["gate", "status", "basis", "explanation", "evidence_ids", "user_answer_indices"],
+            "properties": {
+              "gate": {"enum": ["thesis_clarity", "circle_of_competence", "downside_survivability", "evidence_sufficiency", "behavioral_independence", "opportunity_cost"]},
+              "status": {"enum": ["pass", "fail", "unknown"]},
+              "basis": {"enum": ["research_evidence", "user_input", "mixed"]},
+              "explanation": {"type": "string", "minLength": 1},
+              "evidence_ids": {"type": "array", "items": {"type": "string"}},
+              "user_answer_indices": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {"type": "integer", "minimum": 0}
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "behavioral_flags": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"enum": ["fomo", "social_proof", "recency_bias", "anchoring", "sunk_cost", "confirmation_bias", "none"]}
+        },
+        "opportunity_cost": {"type": "string", "minLength": 1},
+        "conditions": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "summary": {"type": "string", "minLength": 1},
+        "confidence": {"enum": ["high", "medium", "low"]}
+      },
+      "additionalProperties": false
+    },
+    "productMarket": {
+      "type": "object",
+      "required": ["id", "product_id", "market_name", "geography", "customer_segment_ids", "confidence", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^pm-"},
+        "product_id": {"type": "string"},
+        "market_name": {"type": "string"},
+        "market_definition": {"type": "string"},
+        "geography": {"type": "string"},
+        "market_share": {"type": ["number", "null"]},
+        "share_unit": {"type": ["string", "null"]},
+        "share_period": {"type": ["string", "null"]},
+        "share_basis": {"type": ["string", "null"]},
+        "share_direction": {"enum": ["gaining", "stable", "losing", "unknown"]},
+        "price_band": {"type": ["string", "null"]},
+        "channels": {"type": "array", "items": {"type": "string"}},
+        "lifecycle": {"enum": ["introduction", "growth", "mature", "declining", "unknown"]},
+        "customer_segment_ids": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "customerSegment": {
+      "type": "object",
+      "required": ["id", "name", "customer_job", "payer", "user", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^cust-"},
+        "name": {"type": "string"},
+        "customer_job": {"type": "string"},
+        "payer": {"type": "string"},
+        "user": {"type": "string"},
+        "decision_chain": {"type": "string"},
+        "purchase_drivers": {"type": "array", "items": {"type": "string"}},
+        "churn_drivers": {"type": "array", "items": {"type": "string"}},
+        "price_sensitivity": {"enum": ["high", "medium", "low", "unknown"]},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "competitor": {
+      "type": "object",
+      "required": ["id", "name", "competition_type", "target_product_ids", "threat_level", "evidence_ids", "competitor_source_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^comp-"},
+        "name": {"type": "string"},
+        "competition_type": {"enum": ["direct", "substitute", "potential_entrant", "supplier_forward", "customer_backward"]},
+        "target_product_ids": {"type": "array", "items": {"type": "string"}},
+        "target_customers": {"type": "string"},
+        "advantages": {"type": "array", "items": {"type": "string"}},
+        "weaknesses": {"type": "array", "items": {"type": "string"}},
+        "threat_level": {"enum": ["high", "medium", "low", "unknown"]},
+        "competitor_source_ids": {"type": "array", "items": {"type": "string"}},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "businessLink": {
+      "type": "object",
+      "required": ["id", "from_id", "to_id", "link_type", "mechanism", "confidence", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^bm-"},
+        "from_id": {"type": "string"},
+        "to_id": {"type": "string"},
+        "link_type": {"enum": ["acquisition", "cross_sell", "subsidy", "data_flywheel", "distribution", "retention", "cash_funding", "risk_transfer"]},
+        "mechanism": {"type": "string"},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "organizationSignal": {
+      "type": "object",
+      "required": ["id", "signal_type", "description", "direction", "confidence", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^org-"},
+        "signal_type": {"enum": ["leadership", "hiring", "layoff", "talent_flow", "team_build", "team_exit", "incentive", "succession", "culture"]},
+        "description": {"type": "string"},
+        "function": {"type": ["string", "null"]},
+        "geography": {"type": ["string", "null"]},
+        "period": {"type": "string"},
+        "direction": {"enum": ["expanding", "stable", "contracting", "mixed", "unknown"]},
+        "alternative_explanations": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "observation": {
+      "type": "object",
+      "required": ["id", "observation_type", "description", "as_of", "confidence", "evidence_ids", "possible_implications", "alternative_explanations"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^obs-"},
+        "observation_type": {"enum": ["hiring", "pricing", "inventory", "traffic", "download", "tender", "contract", "supplier_order", "capex", "patent", "certification", "regulatory", "channel", "customer_behavior", "other"]},
+        "description": {"type": "string"},
+        "as_of": {
+          "anyOf": [
+            {"type": "string", "format": "date"},
+            {"type": "string", "format": "date-time"}
+          ]
+        },
+        "leading_for": {"type": ["string", "null"]},
+        "lead_time_hypothesis": {"type": ["string", "null"]},
+        "possible_implications": {"type": "array", "items": {"type": "string"}},
+        "alternative_explanations": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "update_frequency": {"type": ["string", "null"]},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "narrativeRisk": {
+      "type": "object",
+      "required": ["id", "narrative", "risk_type", "omitted_context", "beneficiary", "risk_level", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^nar-"},
+        "narrative": {"type": "string"},
+        "risk_type": {"enum": ["selective_disclosure", "metric_substitution", "scope_change", "cherry_picking", "adjusted_profit", "related_party", "promise_behavior_gap", "other"]},
+        "omitted_context": {"type": "string"},
+        "beneficiary": {"type": "string"},
+        "benign_explanation": {"type": "string"},
+        "risk_explanation": {"type": "string"},
+        "risk_level": {"enum": ["high", "medium", "low"]},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "intelligenceItem": {
+      "type": "object",
+      "required": ["id", "intelligence_type", "raw_claim", "source_relationship", "source_motivation", "confidence", "impact_if_true", "next_verification", "status", "evidence_ids", "raw_source_evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^intel-"},
+        "intelligence_type": {"enum": ["credible_lead", "weak_signal", "rumor", "contradiction", "anomaly"]},
+        "raw_claim": {"type": "string"},
+        "source_relationship": {"type": "string"},
+        "source_motivation": {"type": "string"},
+        "supporting_signals": {"type": "array", "items": {"type": "string"}},
+        "opposing_signals": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "impact_if_true": {"type": "string"},
+        "next_verification": {"type": "string"},
+        "expires_at": {"type": ["string", "null"]},
+        "status": {"enum": ["open", "corroborated", "disproved", "stale"]},
+        "raw_source_evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "scenario": {
+      "type": "object",
+      "required": ["id", "name", "trigger", "interpretation", "watch_items", "evidence_ids"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^scn-"},
+        "name": {"type": "string"},
+        "trigger": {"type": "string"},
+        "interpretation": {"type": "string"},
+        "watch_items": {"type": "array", "items": {"type": "string"}},
+        "shock_variables": {"type": "array", "items": {"type": "string"}},
+        "transmission_path": {"type": "array", "items": {"type": "string"}},
+        "impact_dimensions": {"type": "array", "items": {"type": "string"}},
+        "leading_indicators": {"type": "array", "items": {"type": "string"}},
+        "falsifier": {"type": ["string", "null"]},
+        "external_signal_ids": {"type": "array", "items": {"type": "string"}},
+        "evidence_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

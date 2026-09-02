@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "title": "Invalid external-only exposure fixture",
+    "generated_at": "2026-07-24T00:00:00+08:00",
+    "mode": "standard",
+    "research_purpose": "intelligence",
+    "verification_mode": "self_review",
+    "research_status": "partial",
+    "information_regime": "listed"
+  },
+  "scope": {
+    "subject": "Synthetic company",
+    "geography": "Synthetic market",
+    "timeframe": "2026",
+    "decision_question": "Test enterprise exposure gate"
+  },
+  "sources": [
+    {
+      "id": "src-event",
+      "title": "Synthetic external event",
+      "url": "https://example.com/event",
+      "retrieved_at": "2026-07-24",
+      "authority": "secondary",
+      "evidence_type": "event_data",
+      "verification": "unverified"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evd-event",
+      "source_id": "src-event",
+      "excerpt": "A synthetic external event occurred.",
+      "stance": "context",
+      "evidence_kind": "reported_fact"
+    }
+  ],
+  "entities": [
+    {
+      "id": "ent-test",
+      "name": "Synthetic company",
+      "value_chain_position": ["manufacturer"],
+      "power_tier": "unknown",
+      "confidence": "low"
+    }
+  ],
+  "products": [
+    {
+      "id": "prd-test",
+      "entity_id": "ent-test",
+      "name": "Synthetic product",
+      "role": "unknown",
+      "confidence": "low"
+    }
+  ],
+  "external_signals": [
+    {
+      "id": "ext-test",
+      "domain": "shipping",
+      "signal": "Synthetic route delay",
+      "geography": "Synthetic corridor",
+      "as_of": "2026-07-24",
+      "direction": "adverse",
+      "severity": "medium",
+      "status": "observed",
+      "freshness": "fresh",
+      "evidence_ids": ["evd-event"]
+    }
+  ],
+  "exposure_links": [
+    {
+      "id": "exp-invalid",
+      "entity_id": "ent-test",
+      "product_ids": ["prd-test"],
+      "external_signal_ids": ["ext-test"],
+      "exposure_type": "logistics",
+      "mechanism": "Invalid shortcut",
+      "sensitivity": "medium",
+      "time_horizon": "30 days",
+      "evidence_ids": ["evd-event"]
+    }
+  ],
+  "claims": [],
+  "limitations": ["Negative fixture"]
+}

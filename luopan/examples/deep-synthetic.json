@@ -1,0 +1,559 @@
+{
+  "meta": {
+    "title": "Synthetic normal Deep",
+    "generated_at": "2026-07-13T23:59:00+08:00",
+    "mode": "deep",
+    "research_purpose": "intelligence",
+    "analysis_lenses": [],
+    "verification_mode": "self_review",
+    "research_status": "partial",
+    "information_regime": "private_visible"
+  },
+  "scope": {
+    "subject": "Synthetic Company",
+    "geography": "Test",
+    "timeframe": "2026",
+    "decision_question": "Validator fixture"
+  },
+  "intake": {
+    "interaction_mode": "defaults_disclosed",
+    "questions_asked": [],
+    "user_answers": [],
+    "assumptions": [
+      "Synthetic validation only"
+    ],
+    "unresolved_questions": [],
+    "authorized_access": [
+      "No external access"
+    ]
+  },
+  "sources": [
+    {
+      "id": "src-company",
+      "title": "Synthetic company source",
+      "url": "https://example.com/company",
+      "publisher": "Synthetic fixture",
+      "published_at": "2026-01-01",
+      "retrieved_at": "2026-07-13",
+      "authority": "primary",
+      "evidence_type": "product_document",
+      "source_perspective": "company",
+      "verification": "verified",
+      "excerpt": "Synthetic located statement 1 for validator testing only."
+    },
+    {
+      "id": "src-regulator",
+      "title": "Synthetic regulator source",
+      "url": "https://example.com/regulator",
+      "publisher": "Synthetic fixture",
+      "published_at": "2026-01-01",
+      "retrieved_at": "2026-07-13",
+      "authority": "primary",
+      "evidence_type": "government",
+      "source_perspective": "regulator",
+      "verification": "verified",
+      "excerpt": "Synthetic located statement 2 for validator testing only."
+    },
+    {
+      "id": "src-competitor",
+      "title": "Synthetic competitor source",
+      "url": "https://example.com/competitor",
+      "publisher": "Synthetic fixture",
+      "published_at": "2026-01-01",
+      "retrieved_at": "2026-07-13",
+      "authority": "primary",
+      "evidence_type": "product_document",
+      "source_perspective": "competitor",
+      "verification": "verified",
+      "excerpt": "Synthetic located statement 3 for validator testing only."
+    },
+    {
+      "id": "src-customer",
+      "title": "Synthetic customer source",
+      "url": "https://example.com/customer",
+      "publisher": "Synthetic fixture",
+      "published_at": "2026-01-01",
+      "retrieved_at": "2026-07-13",
+      "authority": "secondary",
+      "evidence_type": "customer",
+      "source_perspective": "customer",
+      "verification": "verified",
+      "excerpt": "Synthetic located statement 4 for validator testing only."
+    },
+    {
+      "id": "src-channel",
+      "title": "Synthetic channel source",
+      "url": "https://example.com/channel",
+      "publisher": "Synthetic fixture",
+      "published_at": "2026-01-01",
+      "retrieved_at": "2026-07-13",
+      "authority": "secondary",
+      "evidence_type": "channel",
+      "source_perspective": "channel",
+      "verification": "verified",
+      "excerpt": "Synthetic located statement 5 for validator testing only."
+    },
+    {
+      "id": "src-supplier",
+      "title": "Synthetic supplier source",
+      "url": "https://example.com/supplier",
+      "publisher": "Synthetic fixture",
+      "published_at": "2026-01-01",
+      "retrieved_at": "2026-07-13",
+      "authority": "secondary",
+      "evidence_type": "supplier",
+      "source_perspective": "supplier",
+      "verification": "verified",
+      "excerpt": "Synthetic located statement 6 for validator testing only."
+    },
+    {
+      "id": "src-employee",
+      "title": "Synthetic employee source",
+      "url": "https://example.com/employee",
+      "publisher": "Synthetic fixture",
+      "published_at": "2026-01-01",
+      "retrieved_at": "2026-07-13",
+      "authority": "secondary",
+      "evidence_type": "employee",
+      "source_perspective": "employee",
+      "verification": "verified",
+      "excerpt": "Synthetic located statement 7 for validator testing only."
+    },
+    {
+      "id": "src-behavioral_data",
+      "title": "Synthetic behavioral_data source",
+      "url": "https://example.com/behavioral_data",
+      "publisher": "Synthetic fixture",
+      "published_at": "2026-01-01",
+      "retrieved_at": "2026-07-13",
+      "authority": "secondary",
+      "evidence_type": "traffic",
+      "source_perspective": "behavioral_data",
+      "verification": "verified",
+      "excerpt": "Synthetic located statement 8 for validator testing only."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evd-company",
+      "source_id": "src-company",
+      "locator": "fixture line 1",
+      "excerpt": "Synthetic located statement 1 for validator testing only.",
+      "stance": "context",
+      "evidence_kind": "observed_behavior",
+      "observed_at": "2026-01-01",
+      "subject_ids": [],
+      "quality_flags": [
+        "synthetic_fixture"
+      ]
+    },
+    {
+      "id": "evd-regulator",
+      "source_id": "src-regulator",
+      "locator": "fixture line 1",
+      "excerpt": "Synthetic located statement 2 for validator testing only.",
+      "stance": "context",
+      "evidence_kind": "observed_behavior",
+      "observed_at": "2026-01-01",
+      "subject_ids": [],
+      "quality_flags": [
+        "synthetic_fixture"
+      ]
+    },
+    {
+      "id": "evd-competitor",
+      "source_id": "src-competitor",
+      "locator": "fixture line 1",
+      "excerpt": "Synthetic located statement 3 for validator testing only.",
+      "stance": "context",
+      "evidence_kind": "observed_behavior",
+      "observed_at": "2026-01-01",
+      "subject_ids": [],
+      "quality_flags": [
+        "synthetic_fixture"
+      ]
+    },
+    {
+      "id": "evd-customer",
+      "source_id": "src-customer",
+      "locator": "fixture line 1",
+      "excerpt": "Synthetic located statement 4 for validator testing only.",
+      "stance": "context",
+      "evidence_kind": "observed_behavior",
+      "observed_at": "2026-01-01",
+      "subject_ids": [],
+      "quality_flags": [
+        "synthetic_fixture"
+      ]
+    },
+    {
+      "id": "evd-channel",
+      "source_id": "src-channel",
+      "locator": "fixture line 1",
+      "excerpt": "Synthetic located statement 5 for validator testing only.",
+      "stance": "context",
+      "evidence_kind": "observed_behavior",
+      "observed_at": "2026-01-01",
+      "subject_ids": [],
+      "quality_flags": [
+        "synthetic_fixture"
+      ]
+    },
+    {
+      "id": "evd-supplier",
+      "source_id": "src-supplier",
+      "locator": "fixture line 1",
+      "excerpt": "Synthetic located statement 6 for validator testing only.",
+      "stance": "context",
+      "evidence_kind": "observed_behavior",
+      "observed_at": "2026-01-01",
+      "subject_ids": [],
+      "quality_flags": [
+        "synthetic_fixture"
+      ]
+    },
+    {
+      "id": "evd-employee",
+      "source_id": "src-employee",
+      "locator": "fixture line 1",
+      "excerpt": "Synthetic located statement 7 for validator testing only.",
+      "stance": "context",
+      "evidence_kind": "observed_behavior",
+      "observed_at": "2026-01-01",
+      "subject_ids": [],
+      "quality_flags": [
+        "synthetic_fixture"
+      ]
+    },
+    {
+      "id": "evd-behavioral_data",
+      "source_id": "src-behavioral_data",
+      "locator": "fixture line 1",
+      "excerpt": "Synthetic located statement 8 for validator testing only.",
+      "stance": "context",
+      "evidence_kind": "observed_behavior",
+      "observed_at": "2026-01-01",
+      "subject_ids": [],
+      "quality_flags": [
+        "synthetic_fixture"
+      ]
+    }
+  ],
+  "source_coverage": [
+    {
+      "perspective": "company",
+      "status": "covered",
+      "source_ids": [
+        "src-company"
+      ],
+      "gap_reason": null,
+      "next_search": null
+    },
+    {
+      "perspective": "regulator",
+      "status": "covered",
+      "source_ids": [
+        "src-regulator"
+      ],
+      "gap_reason": null,
+      "next_search": null
+    },
+    {
+      "perspective": "competitor",
+      "status": "covered",
+      "source_ids": [
+        "src-competitor"
+      ],
+      "gap_reason": null,
+      "next_search": null
+    },
+    {
+      "perspective": "customer",
+      "status": "covered",
+      "source_ids": [
+        "src-customer"
+      ],
+      "gap_reason": null,
+      "next_search": null
+    },
+    {
+      "perspective": "channel",
+      "status": "covered",
+      "source_ids": [
+        "src-channel"
+      ],
+      "gap_reason": null,
+      "next_search": null
+    },
+    {
+      "perspective": "supplier",
+      "status": "covered",
+      "source_ids": [
+        "src-supplier"
+      ],
+      "gap_reason": null,
+      "next_search": null
+    },
+    {
+      "perspective": "employee",
+      "status": "covered",
+      "source_ids": [
+        "src-employee"
+      ],
+      "gap_reason": null,
+      "next_search": null
+    },
+    {
+      "perspective": "behavioral_data",
+      "status": "covered",
+      "source_ids": [
+        "src-behavioral_data"
+      ],
+      "gap_reason": null,
+      "next_search": null
+    }
+  ],
+  "discarded_sources": [],
+  "entities": [
+    {
+      "id": "ent-test",
+      "name": "Synthetic Company",
+      "value_chain_position": [
+        "manufacturing"
+      ],
+      "power_tier": "unknown",
+      "evidence_coverage": null,
+      "confidence": "low",
+      "summary": "Synthetic"
+    }
+  ],
+  "products": [
+    {
+      "id": "prd-test",
+      "entity_id": "ent-test",
+      "name": "Synthetic Product",
+      "role": "unknown",
+      "role_as_of": "2026",
+      "role_rationale": "Fixture",
+      "customer_job": "Test",
+      "confidence": "low",
+      "evidence_ids": [
+        "evd-company"
+      ]
+    }
+  ],
+  "supply_chain_nodes": [],
+  "metrics": [],
+  "experience_signals": [],
+  "rd_signals": [],
+  "customer_segments": [
+    {
+      "id": "cust-test",
+      "name": "Synthetic Customer",
+      "customer_job": "Test",
+      "payer": "Test",
+      "user": "Test",
+      "decision_chain": "Test",
+      "purchase_drivers": [
+        "Test"
+      ],
+      "churn_drivers": [
+        "Test"
+      ],
+      "price_sensitivity": "unknown",
+      "evidence_ids": [
+        "evd-customer"
+      ]
+    }
+  ],
+  "product_markets": [
+    {
+      "id": "pm-test",
+      "product_id": "prd-test",
+      "market_name": "Synthetic Market",
+      "market_definition": "Fixture",
+      "geography": "Test",
+      "market_share": null,
+      "share_unit": null,
+      "share_period": null,
+      "share_basis": null,
+      "share_direction": "unknown",
+      "price_band": null,
+      "channels": [
+        "Test"
+      ],
+      "lifecycle": "unknown",
+      "customer_segment_ids": [
+        "cust-test"
+      ],
+      "confidence": "low",
+      "evidence_ids": [
+        "evd-company",
+        "evd-customer"
+      ]
+    }
+  ],
+  "competitors": [
+    {
+      "id": "comp-test",
+      "name": "Synthetic Rival",
+      "competition_type": "direct",
+      "target_product_ids": [
+        "prd-test"
+      ],
+      "target_customers": "Test",
+      "advantages": [
+        "Fixture"
+      ],
+      "weaknesses": [
+        "Fixture"
+      ],
+      "threat_level": "medium",
+      "competitor_source_ids": [
+        "src-competitor"
+      ],
+      "evidence_ids": [
+        "evd-competitor"
+      ]
+    }
+  ],
+  "business_model_links": [
+    {
+      "id": "bm-test",
+      "from_id": "prd-test",
+      "to_id": "cust-test",
+      "link_type": "distribution",
+      "mechanism": "Fixture",
+      "confidence": "low",
+      "evidence_ids": [
+        "evd-channel"
+      ]
+    }
+  ],
+  "organization_signals": [
+    {
+      "id": "org-test",
+      "signal_type": "hiring",
+      "description": "Synthetic hiring signal",
+      "function": null,
+      "geography": null,
+      "period": "2026",
+      "direction": "unknown",
+      "alternative_explanations": [
+        "Fixture"
+      ],
+      "confidence": "low",
+      "evidence_ids": [
+        "evd-employee"
+      ]
+    }
+  ],
+  "observations": [
+    {
+      "id": "obs-test",
+      "observation_type": "traffic",
+      "description": "Synthetic observation",
+      "as_of": "2026-01-01",
+      "leading_for": null,
+      "lead_time_hypothesis": null,
+      "possible_implications": [
+        "Fixture"
+      ],
+      "alternative_explanations": [
+        "Fixture"
+      ],
+      "update_frequency": null,
+      "confidence": "low",
+      "evidence_ids": [
+        "evd-behavioral_data"
+      ]
+    }
+  ],
+  "narrative_risks": [
+    {
+      "id": "nar-test",
+      "narrative": "Synthetic narrative",
+      "risk_type": "selective_disclosure",
+      "omitted_context": "Fixture",
+      "beneficiary": "Fixture",
+      "benign_explanation": "Fixture",
+      "risk_explanation": "Fixture",
+      "risk_level": "low",
+      "evidence_ids": [
+        "evd-company",
+        "evd-regulator"
+      ]
+    }
+  ],
+  "intelligence_items": [
+    {
+      "id": "intel-test",
+      "intelligence_type": "weak_signal",
+      "raw_claim": "Synthetic uncertain claim",
+      "source_relationship": "Fixture",
+      "source_motivation": "Fixture",
+      "supporting_signals": [],
+      "opposing_signals": [],
+      "confidence": "low",
+      "impact_if_true": "Fixture",
+      "next_verification": "Fixture",
+      "expires_at": "2027-01-01",
+      "status": "open",
+      "evidence_ids": [
+        "evd-customer"
+      ],
+      "raw_source_evidence_ids": [
+        "evd-customer"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "id": "clm-test",
+      "statement": "Synthetic company has an observable product footprint",
+      "claim_type": "inference",
+      "confidence": "low",
+      "evidence_ids": [
+        "evd-company",
+        "evd-customer"
+      ],
+      "counter_evidence_ids": [],
+      "counter_search_status": "not_searched",
+      "confidence_reason": "Fixture",
+      "claim_components": [
+        {
+          "statement": "A product page exists",
+          "confidence": "low",
+          "evidence_ids": [
+            "evd-company"
+          ],
+          "unknown": "Commercial adoption"
+        }
+      ],
+      "scope": "Fixture",
+      "implication": "Validator test",
+      "falsifier": "Fixture disproved"
+    }
+  ],
+  "key_unknowns": [
+    "Synthetic unknown"
+  ],
+  "scenarios": [
+    {
+      "id": "scn-test",
+      "name": "Synthetic scenario",
+      "trigger": "Fixture",
+      "interpretation": "Fixture",
+      "watch_items": [
+        "Fixture"
+      ],
+      "evidence_ids": [
+        "evd-company"
+      ]
+    }
+  ],
+  "opportunities": [],
+  "limitations": [
+    "Synthetic fixture only"
+  ]
+}
